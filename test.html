@@ -52,8 +52,8 @@
       padding: 12px;
       border: none;
       border-radius: 8px;
-      background: #e0e0e0;
       text-align: left;
+      background: #e0e0e0;
     }
 
     .correcta { background: #4CAF50; color: white; }
@@ -71,35 +71,11 @@
       border-radius: 8px;
     }
 
-    #botones {
-      margin-top: 15px;
-    }
-
-    #siguiente {
-      background: #2196F3;
-      color: white;
-    }
-
-    #anterior {
-      background: #9e9e9e;
-      color: white;
-    }
-
-    #repetir {
-      background: #ff9800;
-      color: white;
-    }
-
-    #historialBtn {
-      background: #673ab7;
-      color: white;
-    }
-
-    .historial {
-      text-align: left;
-      font-size: 14px;
-      margin-top: 10px;
-    }
+    #siguiente { background: #2196F3; color: white; }
+    #anterior { background: #9e9e9e; color: white; }
+    #repetir { background: #ff9800; color: white; }
+    #finalizar { background: #f44336; color: white; }
+    #historialBtn { background: #673ab7; color: white; }
   </style>
 </head>
 <body>
@@ -116,10 +92,9 @@
   <div id="resultado"></div>
   <div id="explicacion"></div>
 
-  <div id="botones">
-    <button id="anterior" onclick="anteriorPregunta()">⬅ Anterior</button>
-    <button id="siguiente" onclick="siguientePregunta()" style="display:none;">Siguiente ➡</button>
-  </div>
+  <button id="anterior" onclick="anteriorPregunta()">⬅ Anterior</button>
+  <button id="siguiente" onclick="siguientePregunta()" style="display:none;">Siguiente ➡</button>
+  <button id="finalizar" onclick="finTest()">⛔ Finalizar test</button>
 </div>
 
 <script>
@@ -218,7 +193,6 @@ function guardarResultado() {
 
   let historial = JSON.parse(localStorage.getItem("historial")) || [];
   historial.push(resultado);
-
   localStorage.setItem("historial", JSON.stringify(historial));
 }
 
@@ -228,7 +202,7 @@ function finTest() {
   const porcentaje = ((aciertos / preguntas.length) * 100).toFixed(1);
 
   document.querySelector(".card").innerHTML =
-    `<h2>Test terminado</h2>
+    `<h2>Test finalizado</h2>
      <p>✅ ${aciertos} | ❌ ${errores}</p>
      <p>📊 ${porcentaje}%</p>
      ${fallos.length > 0 ? '<button id="repetir" onclick="repetirFallos()">Repetir fallos</button>' : ''}
@@ -251,7 +225,7 @@ function verHistorial() {
 
   historial.reverse().forEach(r => {
     html += `
-      <div class="historial">
+      <div>
         📅 ${r.fecha}<br>
         📘 ${r.tema}<br>
         ✅ ${r.aciertos}/${r.total} — ${r.porcentaje}%<br><br>
@@ -259,15 +233,9 @@ function verHistorial() {
     `;
   });
 
-  html += `<button onclick="borrarHistorial()">🗑 Borrar historial</button>`;
+  html += `<button onclick="location.reload()">Volver</button>`;
 
   document.querySelector(".card").innerHTML = html;
-}
-
-function borrarHistorial() {
-  localStorage.removeItem("historial");
-  alert("Historial borrado");
-  location.reload();
 }
 </script>
 
