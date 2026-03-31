@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Test tipo examen</title>
+  <title>Test tipo Daypo</title>
 
   <style>
     body {
@@ -24,8 +24,21 @@
 
     #contador {
       font-size: 14px;
-      color: #666;
+      margin-bottom: 5px;
+    }
+
+    #barra {
+      height: 10px;
+      background: #ddd;
+      border-radius: 5px;
+      overflow: hidden;
       margin-bottom: 10px;
+    }
+
+    #progreso {
+      height: 100%;
+      width: 0%;
+      background: #4CAF50;
     }
 
     #pregunta {
@@ -40,19 +53,11 @@
       border: none;
       border-radius: 8px;
       background: #e0e0e0;
-      font-size: 14px;
       text-align: left;
     }
 
-    .correcta {
-      background: #4CAF50;
-      color: white;
-    }
-
-    .incorrecta {
-      background: #f44336;
-      color: white;
-    }
+    .correcta { background: #4CAF50; color: white; }
+    .incorrecta { background: #f44336; color: white; }
 
     #resultado {
       font-size: 18px;
@@ -61,27 +66,28 @@
 
     #explicacion {
       margin-top: 10px;
-      font-size: 14px;
       background: #fafafa;
       padding: 10px;
       border-radius: 8px;
     }
 
-    #siguiente {
+    #botones {
       margin-top: 15px;
-      background: #2196F3;
-      color: white;
-      font-weight: bold;
     }
 
-    #final {
-      font-size: 18px;
+    #siguiente {
+      background: #2196F3;
+      color: white;
+    }
+
+    #anterior {
+      background: #9e9e9e;
+      color: white;
     }
 
     #repetir {
       background: #ff9800;
       color: white;
-      margin-top: 10px;
     }
   </style>
 </head>
@@ -89,21 +95,34 @@
 
 <div class="card">
   <div id="contador"></div>
+
+  <div id="barra">
+    <div id="progreso"></div>
+  </div>
+
   <div id="pregunta"></div>
   <div id="opciones"></div>
   <div id="resultado"></div>
   <div id="explicacion"></div>
 
-  <button id="siguiente" onclick="siguientePregunta()" style="display:none;">Siguiente</button>
+  <div id="botones">
+    <button id="anterior" onclick="anteriorPregunta()">⬅ Anterior</button>
+    <button id="siguiente" onclick="siguientePregunta()" style="display:none;">Siguiente ➡</button>
+  </div>
 </div>
 
 <script>
 let preguntas = [];
+let respuestasUsuario = [];
 let fallos = [];
 
 let actual = 0;
 let aciertos = 0;
 let errores = 0;
+
+// sonidos
+const sonidoBien = new Audio("https://www.soundjay.com/buttons/sounds/button-3.mp3");
+const sonidoMal = new Audio("https://www.soundjay.com/buttons/sounds/button-10.mp3");
 
 fetch("preguntas.json")
   .then(res => res.json())
@@ -117,6 +136,9 @@ function mostrarPregunta() {
 
   document.getElementById("contador").innerText =
     `Pregunta ${actual + 1} de ${preguntas.length}`;
+
+  document.getElementById("progreso").style.width =
+    `${(actual / preguntas.length) * 100}%`;
 
   document.getElementById("pregunta").innerText = p.pregunta;
 
@@ -146,12 +168,16 @@ function responder(indice, boton) {
     if (i === indice && i !== correcta) btn.classList.add("incorrecta");
   });
 
+  respuestasUsuario[actual] = indice;
+
   if (indice === correcta) {
     aciertos++;
+    sonidoBien.play();
     document.getElementById("resultado").innerText = "✅ Correcto";
   } else {
     errores++;
     fallos.push(preguntas[actual]);
+    sonidoMal.play();
     document.getElementById("resultado").innerText = "❌ Incorrecto";
   }
 
@@ -163,7 +189,6 @@ function responder(indice, boton) {
 
 function siguientePregunta() {
   actual++;
-
   if (actual < preguntas.length) {
     mostrarPregunta();
   } else {
@@ -171,14 +196,22 @@ function siguientePregunta() {
   }
 }
 
+function anteriorPregunta() {
+  if (actual > 0) {
+    actual--;
+    mostrarPregunta();
+  }
+}
+
 function finTest() {
+  const porcentaje = ((aciertos / preguntas.length) * 100).toFixed(1);
+
   document.querySelector(".card").innerHTML =
-    `<div id="final">
-      <h2>Test terminado</h2>
-      <p>✅ Aciertos: ${aciertos}</p>
-      <p>❌ Fallos: ${errores}</p>
-      ${fallos.length > 0 ? '<button id="repetir" onclick="repetirFallos()">Repetir fallos</button>' : ''}
-    </div>`;
+    `<h2>Test terminado</h2>
+     <p>✅ ${aciertos} | ❌ ${errores}</p>
+     <p>📊 ${porcentaje}%</p>
+     ${fallos.length > 0 ? '<button id="repetir" onclick="repetirFallos()">Repetir fallos</button>' : ''}
+    `;
 }
 
 function repetirFallos() {
@@ -191,6 +224,7 @@ function repetirFallos() {
   document.body.innerHTML = `
     <div class="card">
       <div id="contador"></div>
+      <div id="barra"><div id="progreso"></div></div>
       <div id="pregunta"></div>
       <div id="opciones"></div>
       <div id="resultado"></div>
