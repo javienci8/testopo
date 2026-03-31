@@ -6,86 +6,152 @@
 <title>Test</title>
 
 <style>
+* { box-sizing: border-box; }
+
 body {
   margin: 0;
-  font-family: 'Segoe UI';
+  font-family: 'Segoe UI', sans-serif;
   background: linear-gradient(135deg, #667eea, #764ba2);
-}
-
-.container {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  min-height: 100vh;
 }
 
+/* HEADER */
+.header {
+  width: 100%;
+  padding: 15px;
+  text-align: center;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+/* CARD */
 .card {
   background: white;
-  padding: 20px;
-  border-radius: 20px;
   width: 90%;
   max-width: 500px;
-  text-align: center;
+  border-radius: 20px;
+  padding: 20px;
+  margin-top: 20px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+  animation: fadeIn 0.4s ease;
 }
 
+/* PROGRESO */
 .progress-container {
   background: #eee;
-  border-radius: 10px;
+  border-radius: 20px;
   overflow: hidden;
+  height: 8px;
   margin-bottom: 15px;
 }
 
 .progress-bar {
-  height: 10px;
+  height: 100%;
   width: 0%;
-  background: #667eea;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  transition: 0.3s;
 }
 
+/* PREGUNTA */
+#pregunta {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+/* RESPUESTAS */
 #respuestas button {
   width: 100%;
+  padding: 14px;
   margin: 8px 0;
-  padding: 12px;
   border: none;
-  border-radius: 10px;
-  background: #f5f5f5;
+  border-radius: 14px;
+  background: #f5f6fa;
+  font-size: 15px;
   cursor: pointer;
+  transition: 0.2s;
 }
 
-.correcto { color: green; }
-.incorrecto { color: red; }
+#respuestas button:hover {
+  background: #e0e3ff;
+  transform: scale(1.02);
+}
 
-button.next {
+/* FEEDBACK */
+.correcto {
+  color: #2ecc71;
+  font-weight: bold;
+}
+
+.incorrecto {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+#explicacion {
   margin-top: 10px;
-  padding: 10px;
+  font-size: 14px;
+  color: #555;
+}
+
+/* BOTÓN */
+.next-btn {
+  margin-top: 15px;
+  padding: 14px;
   width: 100%;
-  background: #667eea;
-  color: white;
   border: none;
-  border-radius: 10px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.next-btn:hover {
+  transform: scale(1.03);
+}
+
+/* RESULTADO */
+#resultado {
+  margin-top: 20px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* ANIMACIÓN */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px);}
+  to { opacity: 1; transform: translateY(0);}
 }
 </style>
 
 </head>
 <body>
 
-<div class="container">
-  <div class="card">
+<div class="header">
+  📚 Test App
+</div>
 
-    <div class="progress-container">
-      <div class="progress-bar" id="progress"></div>
-    </div>
+<div class="card">
 
-    <h2 id="pregunta">Cargando...</h2>
-    <div id="respuestas"></div>
-
-    <div id="feedback"></div>
-    <div id="explicacion"></div>
-
-    <button class="next" onclick="siguiente()">Siguiente</button>
-
-    <div id="resultado"></div>
-
+  <div class="progress-container">
+    <div class="progress-bar" id="progress"></div>
   </div>
+
+  <h2 id="pregunta">Cargando...</h2>
+
+  <div id="respuestas"></div>
+
+  <div id="feedback"></div>
+  <div id="explicacion"></div>
+
+  <button class="next-btn" onclick="siguiente()">Siguiente</button>
+
+  <div id="resultado"></div>
+
 </div>
 
 <script>
@@ -95,11 +161,9 @@ let index = 0;
 let puntos = 0;
 let respondida = false;
 
-// 🔥 LEER QUÉ TEST HAS ELEGIDO
 const params = new URLSearchParams(window.location.search);
 const archivo = params.get("test") || "preguntas.json";
 
-// 🔥 CARGAR ESE JSON
 fetch(archivo)
   .then(res => res.json())
   .then(data => {
@@ -117,6 +181,7 @@ function cargarPregunta() {
   actualizarProgreso();
 
   const p = preguntas[index];
+
   document.getElementById("pregunta").innerText = p.pregunta;
 
   const cont = document.getElementById("respuestas");
@@ -141,10 +206,10 @@ function responder(i) {
 
   if (i === p.correcta) {
     puntos++;
-    document.getElementById("feedback").innerText = "Correcto";
+    document.getElementById("feedback").innerText = "✅ Correcto";
     document.getElementById("feedback").className = "correcto";
   } else {
-    document.getElementById("feedback").innerText = "Incorrecto";
+    document.getElementById("feedback").innerText = "❌ Incorrecto";
     document.getElementById("feedback").className = "incorrecto";
     document.getElementById("explicacion").innerText = p.explicacion;
   }
@@ -156,7 +221,8 @@ function siguiente() {
   if (index < preguntas.length) {
     cargarPregunta();
   } else {
-    document.getElementById("pregunta").innerText = "Test terminado";
+    document.getElementById("progress").style.width = "100%";
+    document.getElementById("pregunta").innerText = "🎉 Test terminado";
     document.getElementById("respuestas").innerHTML = "";
     document.getElementById("resultado").innerText =
       "Resultado: " + puntos + "/" + preguntas.length;
