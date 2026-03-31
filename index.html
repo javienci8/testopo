@@ -6,15 +6,12 @@
 <title>Test PRO</title>
 
 <style>
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
   background: linear-gradient(135deg, #667eea, #764ba2);
-  color: white;
 }
 
 .container {
@@ -27,7 +24,6 @@ body {
 
 .card {
   background: white;
-  color: black;
   padding: 20px;
   border-radius: 20px;
   width: 100%;
@@ -36,7 +32,7 @@ body {
   text-align: center;
 }
 
-/* 🔥 PROGRESO */
+/* PROGRESO */
 .progress-container {
   background: #eee;
   border-radius: 10px;
@@ -51,13 +47,13 @@ body {
   transition: width 0.3s;
 }
 
-/* 🔥 PREGUNTA */
+/* PREGUNTA */
 #pregunta {
   font-size: 18px;
   margin-bottom: 15px;
 }
 
-/* 🔥 RESPUESTAS */
+/* RESPUESTAS */
 #respuestas button {
   display: block;
   width: 100%;
@@ -68,23 +64,14 @@ body {
   background: #f5f5f5;
   cursor: pointer;
   font-size: 15px;
-  transition: 0.2s;
 }
 
 #respuestas button:hover {
   background: #ddd;
 }
 
-/* 🔥 FEEDBACK */
-.correcto {
-  color: #2ecc71;
-  font-weight: bold;
-}
-
-.incorrecto {
-  color: #e74c3c;
-  font-weight: bold;
-}
+.correcto { color: #2ecc71; font-weight: bold; }
+.incorrecto { color: #e74c3c; font-weight: bold; }
 
 #explicacion {
   margin-top: 10px;
@@ -92,7 +79,6 @@ body {
   color: #555;
 }
 
-/* 🔥 BOTÓN */
 .next-btn {
   margin-top: 15px;
   padding: 12px;
@@ -114,13 +100,6 @@ body {
   font-size: 18px;
   font-weight: bold;
 }
-
-/* 📱 MÓVIL */
-@media (max-width: 500px) {
-  #pregunta {
-    font-size: 16px;
-  }
-}
 </style>
 
 </head>
@@ -129,12 +108,11 @@ body {
 <div class="container">
   <div class="card">
 
-    <!-- 🔥 BARRA PROGRESO -->
     <div class="progress-container">
       <div class="progress-bar" id="progress"></div>
     </div>
 
-    <h2 id="pregunta">Cargando...</h2>
+    <h2 id="pregunta">Cargando preguntas...</h2>
 
     <div id="respuestas"></div>
 
@@ -155,28 +133,42 @@ let index = 0;
 let puntos = 0;
 let respondida = false;
 
-// Cargar preguntas
-fetch("preguntas.json")
-  .then(res => res.json())
+/* 🔥 CARGA SEGURA */
+fetch("./preguntas.json")
+  .then(res => {
+    if (!res.ok) throw new Error("No se pudo cargar preguntas.json");
+    return res.json();
+  })
   .then(data => {
+    console.log("Preguntas cargadas:", data.length);
     preguntas = data;
+
+    if (preguntas.length === 0) {
+      document.getElementById("pregunta").innerText = "No hay preguntas";
+      return;
+    }
+
     cargarPregunta();
+  })
+  .catch(err => {
+    console.error(err);
+    document.getElementById("pregunta").innerText = "Error cargando preguntas";
   });
 
 function actualizarProgreso() {
-  const progreso = ((index) / preguntas.length) * 100;
+  const progreso = (index / preguntas.length) * 100;
   document.getElementById("progress").style.width = progreso + "%";
 }
 
 function cargarPregunta() {
   respondida = false;
-
   actualizarProgreso();
 
   document.getElementById("feedback").innerText = "";
   document.getElementById("explicacion").innerText = "";
 
   const p = preguntas[index];
+
   document.getElementById("pregunta").innerText = p.pregunta;
 
   const cont = document.getElementById("respuestas");
@@ -198,10 +190,10 @@ function responder(i) {
 
   if (i === p.correcta) {
     puntos++;
-    document.getElementById("feedback").innerHTML = "✅ Correcto";
+    document.getElementById("feedback").innerText = "✅ Correcto";
     document.getElementById("feedback").className = "correcto";
   } else {
-    document.getElementById("feedback").innerHTML = "❌ Incorrecto";
+    document.getElementById("feedback").innerText = "❌ Incorrecto";
     document.getElementById("feedback").className = "incorrecto";
     document.getElementById("explicacion").innerText = p.explicacion;
   }
