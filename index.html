@@ -3,94 +3,88 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Test App</title>
+<title>Login</title>
 
 <style>
-* { box-sizing: border-box; }
-
 body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  margin:0;
+  font-family:'Segoe UI';
+  background:linear-gradient(135deg,#667eea,#764ba2);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
 }
 
-/* CONTENEDOR */
-.container {
-  text-align: center;
-  color: white;
-}
-
-/* LOGO */
-.logo {
-  font-size: 60px;
-  margin-bottom: 10px;
-  animation: float 2s ease-in-out infinite;
-}
-
-.title {
-  font-size: 26px;
-  font-weight: bold;
-  margin-bottom: 30px;
-}
-
-/* CARD */
 .card {
-  background: white;
-  padding: 20px;
-  border-radius: 20px;
-  width: 280px;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+  background:white;
+  padding:25px;
+  border-radius:20px;
+  width:300px;
+  text-align:center;
 }
 
-/* BOTONES */
+input {
+  width:100%;
+  padding:12px;
+  margin:8px 0;
+  border-radius:10px;
+}
+
 button {
-  width: 100%;
-  padding: 14px;
-  margin: 10px 0;
-  border: none;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  color: white;
-  font-size: 15px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-button:hover {
-  transform: scale(1.05);
-}
-
-/* ANIMACIÓN LOGO */
-@keyframes float {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0); }
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  border:none;
+  border-radius:10px;
+  background:#667eea;
+  color:white;
 }
 </style>
-
 </head>
+
 <body>
 
-<div class="container">
+<div class="card">
+  <h2>🔐 Test App</h2>
 
-  <div class="logo">🧠</div>
-  <div class="title">Test App</div>
+  <input id="email" placeholder="Email">
+  <input id="password" type="password" placeholder="Contraseña">
 
-  <div class="card">
-    <button onclick="irTest('preguntas.json')">📚 Tema 1</button>
-    <button onclick="irTest('test2.json')">📖 Tema 2</button>
-  </div>
+  <button onclick="register()">Registrarse</button>
+  <button onclick="login()">Entrar</button>
 
+  <p id="msg"></p>
 </div>
 
-<script>
-function irTest(archivo) {
-  window.location.href = "test.html?test=" + archivo;
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } 
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "TU_API_KEY",
+  authDomain: "TU_AUTH_DOMAIN",
+  projectId: "TU_PROJECT_ID",
+  appId: "TU_APP_ID"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+window.register = () => {
+  createUserWithEmailAndPassword(auth, email.value, password.value)
+    .then(() => msg.innerText="Usuario creado")
+    .catch(e => msg.innerText=e.message);
 }
+
+window.login = () => {
+  signInWithEmailAndPassword(auth, email.value, password.value)
+    .then(() => window.location="menu.html")
+    .catch(e => msg.innerText="Error login");
+}
+
 </script>
 
 </body>
