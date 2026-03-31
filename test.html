@@ -1,242 +1,194 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Test PRO</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test</title>
 
-  <style>
-    body {
-      font-family: Arial;
-      background: #f5f5f5;
-      padding: 15px;
-      margin: 0;
-    }
+<style>
+body {
+  margin:0;
+  font-family:'Segoe UI';
+  background:linear-gradient(135deg,#667eea,#764ba2);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
 
-    .card {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      max-width: 500px;
-      margin: auto;
-      text-align: center;
-    }
+.card {
+  background:white;
+  padding:25px;
+  border-radius:20px;
+  width:90%;
+  max-width:500px;
+  text-align:center;
+  box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
 
-    #contador {
-      font-size: 14px;
-      margin-bottom: 5px;
-    }
+button {
+  width:100%;
+  padding:12px;
+  margin:5px 0;
+  border:none;
+  border-radius:10px;
+  background:#667eea;
+  color:white;
+  cursor:pointer;
+}
 
-    #barra {
-      height: 10px;
-      background: #ddd;
-      border-radius: 5px;
-      overflow: hidden;
-      margin-bottom: 10px;
-    }
+.correcto { color:green; }
+.incorrecto { color:red; }
 
-    #progreso {
-      height: 100%;
-      width: 0%;
-      background: #4CAF50;
-    }
+.progress {
+  height:8px;
+  background:#eee;
+  border-radius:10px;
+  margin-bottom:15px;
+}
 
-    #pregunta {
-      font-size: 18px;
-      margin-bottom: 15px;
-    }
-
-    button {
-      width: 100%;
-      margin: 8px 0;
-      padding: 12px;
-      border: none;
-      border-radius: 8px;
-      text-align: left;
-      background: #e0e0e0;
-    }
-
-    .correcta { background: #4CAF50; color: white; }
-    .incorrecta { background: #f44336; color: white; }
-
-    #resultado {
-      font-size: 18px;
-      margin-top: 10px;
-    }
-
-    #explicacion {
-      margin-top: 10px;
-      background: #fafafa;
-      padding: 10px;
-      border-radius: 8px;
-    }
-
-    #siguiente { background: #2196F3; color: white; }
-    #anterior { background: #9e9e9e; color: white; }
-    #repetir { background: #ff9800; color: white; }
-    #finalizar { background: #f44336; color: white; }
-    #historialBtn { background: #673ab7; color: white; }
-  </style>
+.progress-bar {
+  height:8px;
+  background:linear-gradient(90deg,#667eea,#764ba2);
+  border-radius:10px;
+  width:0%;
+}
+</style>
 </head>
+
 <body>
 
 <div class="card">
-  <div id="contador"></div>
 
-  <div id="barra">
-    <div id="progreso"></div>
-  </div>
-
-  <div id="pregunta"></div>
-  <div id="opciones"></div>
-  <div id="resultado"></div>
-  <div id="explicacion"></div>
-
-  <button id="anterior" onclick="anteriorPregunta()">⬅ Anterior</button>
-  <button id="siguiente" onclick="siguientePregunta()" style="display:none;">Siguiente ➡</button>
-  <button id="finalizar" onclick="finTest()">⛔ Finalizar test</button>
+<div class="progress">
+  <div class="progress-bar" id="progress"></div>
 </div>
 
-<script>
+<h2 id="pregunta">Cargando...</h2>
+
+<div id="respuestas"></div>
+
+<h3 id="feedback"></h3>
+<p id="explicacion"></p>
+
+<button onclick="siguiente()">Siguiente</button>
+
+<h3 id="resultado"></h3>
+
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, onAuthStateChanged } 
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, doc, setDoc } 
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+// 🔥 TU CONFIG (NO TOCAR SI YA LA TIENES)
+const firebaseConfig = {
+  apiKey: "TU_API_KEY",
+  authDomain: "TU_AUTH_DOMAIN",
+  projectId: "TU_PROJECT_ID",
+  appId: "TU_APP_ID"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// 🔒 PROTEGER ACCESO
+onAuthStateChanged(auth, user => {
+  if (!user) {
+    window.location = "index.html";
+  }
+});
+
 let preguntas = [];
-let fallos = [];
-let actual = 0;
-let aciertos = 0;
-let errores = 0;
+let index = 0;
+let puntos = 0;
+let respondida = false;
 
+// 🔥 CARGAR PREGUNTAS
 fetch("preguntas.json")
-  .then(res => res.json())
-  .then(data => {
-    preguntas = data;
-    mostrarPregunta();
-  });
+.then(res => res.json())
+.then(data => {
+  preguntas = data;
+  cargarPregunta();
+})
+.catch(() => {
+  document.getElementById("pregunta").innerText = "Error cargando preguntas";
+});
 
-function mostrarPregunta() {
-  const p = preguntas[actual];
+// 🔥 MOSTRAR PREGUNTA
+function cargarPregunta() {
+  respondida = false;
+  feedback.innerText = "";
+  explicacion.innerText = "";
 
-  document.getElementById("contador").innerText =
-    `Pregunta ${actual + 1} de ${preguntas.length}`;
+  const p = preguntas[index];
 
-  document.getElementById("progreso").style.width =
-    `${(actual / preguntas.length) * 100}%`;
+  pregunta.innerText = p.pregunta;
+  respuestas.innerHTML = "";
 
-  document.getElementById("pregunta").innerText = p.pregunta;
-
-  const contenedor = document.getElementById("opciones");
-  contenedor.innerHTML = "";
-
-  p.opciones.forEach((op, i) => {
+  p.respuestas.forEach((r, i) => {
     const btn = document.createElement("button");
-    btn.innerText = op;
-    btn.onclick = () => responder(i, btn);
-    contenedor.appendChild(btn);
+    btn.innerText = r;
+    btn.onclick = () => responder(i);
+    respuestas.appendChild(btn);
   });
 
-  document.getElementById("resultado").innerText = "";
-  document.getElementById("explicacion").innerText = "";
-  document.getElementById("siguiente").style.display = "none";
+  let progreso = (index / preguntas.length) * 100;
+  document.getElementById("progress").style.width = progreso + "%";
 }
 
-function responder(indice, boton) {
-  const correcta = preguntas[actual].respuesta;
-  const botones = document.querySelectorAll("#opciones button");
+// 🔥 RESPONDER
+function responder(i) {
+  if (respondida) return;
 
-  botones.forEach((btn, i) => {
-    btn.disabled = true;
-    if (i === correcta) btn.classList.add("correcta");
-    if (i === indice && i !== correcta) btn.classList.add("incorrecta");
-  });
+  respondida = true;
+  const p = preguntas[index];
 
-  if (indice === correcta) {
-    aciertos++;
-    document.getElementById("resultado").innerText = "✅ Correcto";
+  if (i === p.correcta) {
+    puntos++;
+    feedback.innerText = "✅ Correcto";
+    feedback.className = "correcto";
   } else {
-    errores++;
-    fallos.push(preguntas[actual]);
-    document.getElementById("resultado").innerText = "❌ Incorrecto";
+    feedback.innerText = "❌ Incorrecto";
+    feedback.className = "incorrecto";
+    explicacion.innerText = p.explicacion;
   }
-
-  document.getElementById("explicacion").innerText =
-    preguntas[actual].explicacion || "";
-
-  document.getElementById("siguiente").style.display = "block";
 }
 
-function siguientePregunta() {
-  actual++;
-  if (actual < preguntas.length) {
-    mostrarPregunta();
+// 🔥 SIGUIENTE + GUARDAR RESULTADO
+window.siguiente = async function() {
+  index++;
+
+  if (index < preguntas.length) {
+    cargarPregunta();
   } else {
-    finTest();
+
+    pregunta.innerText = "🎉 Test terminado";
+    respuestas.innerHTML = "";
+    feedback.innerText = "";
+
+    resultado.innerText = "Resultado: " + puntos + "/" + preguntas.length;
+
+    document.getElementById("progress").style.width = "100%";
+
+    // 💾 GUARDAR EN FIREBASE
+    const user = auth.currentUser;
+
+    if (user) {
+      await setDoc(doc(db, "resultados", user.uid), {
+        puntuacion: puntos,
+        total: preguntas.length,
+        fecha: new Date().toISOString()
+      });
+    }
   }
 }
 
-function anteriorPregunta() {
-  if (actual > 0) {
-    actual--;
-    mostrarPregunta();
-  }
-}
-
-function guardarResultado() {
-  const tema = preguntas[0]?.tema || "General";
-  const porcentaje = ((aciertos / preguntas.length) * 100).toFixed(1);
-
-  const resultado = {
-    tema,
-    aciertos,
-    errores,
-    total: preguntas.length,
-    porcentaje,
-    fecha: new Date().toLocaleString()
-  };
-
-  let historial = JSON.parse(localStorage.getItem("historial")) || [];
-  historial.push(resultado);
-  localStorage.setItem("historial", JSON.stringify(historial));
-}
-
-function finTest() {
-  guardarResultado();
-
-  const porcentaje = ((aciertos / preguntas.length) * 100).toFixed(1);
-
-  document.querySelector(".card").innerHTML =
-    `<h2>Test finalizado</h2>
-     <p>✅ ${aciertos} | ❌ ${errores}</p>
-     <p>📊 ${porcentaje}%</p>
-     ${fallos.length > 0 ? '<button id="repetir" onclick="repetirFallos()">Repetir fallos</button>' : ''}
-     <button id="historialBtn" onclick="verHistorial()">Ver historial</button>`;
-}
-
-function repetirFallos() {
-  preguntas = [...fallos];
-  fallos = [];
-  actual = 0;
-  aciertos = 0;
-  errores = 0;
-  mostrarPregunta();
-}
-
-function verHistorial() {
-  let historial = JSON.parse(localStorage.getItem("historial")) || [];
-
-  let html = "<h2>Historial</h2>";
-
-  historial.reverse().forEach(r => {
-    html += `
-      <div>
-        📅 ${r.fecha}<br>
-        📘 ${r.tema}<br>
-        ✅ ${r.aciertos}/${r.total} — ${r.porcentaje}%<br><br>
-      </div>
-    `;
-  });
-
-  html += `<button onclick="location.reload()">Volver</button>`;
-
-  document.querySelector(".card").innerHTML = html;
-}
 </script>
 
 </body>
