@@ -6,76 +6,48 @@
 <title>Login</title>
 
 <style>
-* {
-  box-sizing: border-box;
-}
-
 body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg,#667eea,#764ba2);
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin:0;
+  font-family:'Segoe UI';
+  background:linear-gradient(135deg,#667eea,#764ba2);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
 }
 
-/* CARD */
 .card {
-  background: white;
-  padding: 30px 25px;
-  border-radius: 20px;
-  width: 90%;
-  max-width: 350px;
-  text-align: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  background:white;
+  padding:30px;
+  border-radius:20px;
+  width:90%;
+  max-width:350px;
+  text-align:center;
 }
 
-/* TITULO */
-h2 {
-  margin-bottom: 20px;
-}
-
-/* INPUTS */
 input {
-  width: 100%;
-  padding: 12px;
-  margin: 8px 0;
-  border-radius: 12px;
-  border: 1px solid #ddd;
-  font-size: 14px;
-  outline: none;
-  transition: 0.2s;
+  width:100%;
+  padding:12px;
+  margin:8px 0;
+  border-radius:10px;
+  border:1px solid #ddd;
 }
 
-input:focus {
-  border-color: #667eea;
-  box-shadow: 0 0 5px rgba(102,126,234,0.4);
-}
-
-/* BOTONES */
 button {
-  width: 100%;
-  padding: 12px;
-  margin-top: 10px;
-  border: none;
-  border-radius: 12px;
-  background: linear-gradient(135deg,#667eea,#764ba2);
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.2s;
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  border:none;
+  border-radius:10px;
+  background:#667eea;
+  color:white;
 }
 
-button:hover {
-  transform: scale(1.03);
-  opacity: 0.9;
-}
-
-/* MENSAJE */
-#msg {
-  margin-top: 10px;
-  font-size: 14px;
+.link {
+  margin-top:10px;
+  display:block;
+  color:#667eea;
+  cursor:pointer;
 }
 </style>
 </head>
@@ -83,13 +55,14 @@ button:hover {
 <body>
 
 <div class="card">
-  <h2>🔐 Test App</h2>
+  <h2>🔐 Iniciar sesión</h2>
 
   <input id="email" placeholder="Email">
   <input id="password" type="password" placeholder="Contraseña">
 
-  <button onclick="register()">Registrarse</button>
   <button onclick="login()">Entrar</button>
+
+  <span class="link" onclick="goRegister()">Crear cuenta</span>
 
   <p id="msg"></p>
 </div>
@@ -97,7 +70,7 @@ button:hover {
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } 
+import { getAuth, signInWithEmailAndPassword } 
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 const firebaseConfig = {
@@ -109,23 +82,23 @@ const firebaseConfig = {
   appId: "1:1079888572782:web:b21bdfd01ddbc414c8917f",
   measurementId: "G-496XVBQGB2"
 };
-
+  
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-
-window.register = () => {
-  createUserWithEmailAndPassword(auth, email.value, password.value)
-    .then(() => msg.innerText="Usuario creado ✅")
-    .catch(e => msg.innerText=e.message);
-}
 
 window.login = () => {
   signInWithEmailAndPassword(auth, email.value, password.value)
     .then(() => window.location="menu.html")
-    .catch(e => msg.innerText="Error login ❌");
+    .catch(e => msg.innerText="Error login");
+}
+
+window.goRegister = () => {
+  window.location = "register.html";
 }
 
 </script>
 
 </body>
 </html>
+
+
