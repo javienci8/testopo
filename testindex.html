@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Test Tema 1</title>
+
+<style>
+body {
+  font-family: Arial;
+  background: #f4f4f4;
+  text-align: center;
+}
+.card {
+  background: white;
+  padding: 20px;
+  margin: auto;
+  max-width: 600px;
+  border-radius: 10px;
+}
+button {
+  margin: 10px;
+  padding: 10px;
+}
+</style>
+
+</head>
+<body>
+
+<div class="card">
+
+<h2 id="pregunta"></h2>
+<div id="respuestas"></div>
+
+<button onclick="siguiente()">Siguiente</button>
+
+<h3 id="resultado"></h3>
+
+</div>
+
+<script>
+
+let preguntas = [];
+let index = 0;
+let puntos = 0;
+
+// 🔥 Cargar JSON
+fetch("preguntas.json")
+  .then(res => res.json())
+  .then(data => {
+    preguntas = data;
+    cargarPregunta();
+  });
+
+function cargarPregunta() {
+
+  const p = preguntas[index];
+
+  document.getElementById("pregunta").innerText = p.pregunta;
+
+  const cont = document.getElementById("respuestas");
+  cont.innerHTML = "";
+
+  p.respuestas.forEach((r, i) => {
+    const btn = document.createElement("button");
+    btn.innerText = r;
+
+    btn.onclick = () => {
+      if (i === p.correcta) puntos++;
+      siguiente();
+    };
+
+    cont.appendChild(btn);
+  });
+}
+
+function siguiente() {
+  index++;
+
+  if (index < preguntas.length) {
+    cargarPregunta();
+  } else {
+    document.getElementById("pregunta").innerText = "Test terminado";
+    document.getElementById("respuestas").innerHTML = "";
+    document.getElementById("resultado").innerText =
+      "Resultado: " + puntos + "/" + preguntas.length;
+  }
+}
+
+</script>
+
+</body>
+</html>

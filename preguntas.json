@@ -1,0 +1,52 @@
+[
+  {
+    "pregunta": "El conjunto de órganos administrativos que realizan unos trabajos para satisfacer las necesidades de los ciudadanos es:",
+    "respuestas": ["La Administración", "Procedimiento", "Personalidad jurídica"],
+    "correcta": 0
+  },
+  {
+    "pregunta": "Un grupo de personas dentro de la Administración que toma decisiones con efectos legales son:",
+    "respuestas": ["La Administración", "Los órganos administrativos", "La personalidad jurídica"],
+    "correcta": 1
+  },
+  {
+    "pregunta": "La Administración sigue siempre:",
+    "respuestas": ["Un procedimiento", "Las indicaciones del Gobierno", "Las dos respuestas son correctas"],
+    "correcta": 2
+  },
+  {
+    "pregunta": "El modo de ejecutar tareas con pasos definidos es:",
+    "respuestas": ["Coordinación", "Descentralización", "Procedimiento"],
+    "correcta": 2
+  },
+  {
+    "pregunta": "Qué es tener personalidad jurídica:",
+    "respuestas": ["Responder jurídicamente", "Tener derechos y obligaciones", "Las dos respuestas son correctas"],
+    "correcta": 2
+  },
+  {
+    "pregunta": "Quién reconoce la personalidad jurídica:",
+    "respuestas": ["El gobierno", "Las leyes", "Los ministros"],
+    "correcta": 1
+  },
+  {
+    "pregunta": "Por qué la Administración es compleja:",
+    "respuestas": ["Porque hay muchos servicios", "Porque los ciudadanos necesitan servicios", "Las dos respuestas son correctas"],
+    "correcta": 2
+  },
+  {
+    "pregunta": "Ser propietario de cosas significa:",
+    "respuestas": ["Personalidad jurídica", "Patrimonio", "Las dos respuestas son correctas"],
+    "correcta": 1
+  },
+  {
+    "pregunta": "La ley más importante de España es:",
+    "respuestas": ["Los reglamentos", "La Constitución", "Otra ley"],
+    "correcta": 1
+  },
+  {
+    "pregunta": "Hacer las cosas sin favoritismos es:",
+    "respuestas": ["Subjetividad", "Objetividad", "Intereses generales"],
+    "correcta": 1
+  }
+]
