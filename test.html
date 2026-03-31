@@ -2,36 +2,50 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Test modo examen</title>
+
   <style>
     body {
       font-family: Arial;
       background: #f0f0f0;
-      padding: 20px;
+      margin: 0;
+      padding: 15px;
+    }
+
+    h1 {
       text-align: center;
+      font-size: 22px;
     }
 
     .card {
       background: white;
-      padding: 20px;
-      border-radius: 10px;
+      padding: 15px;
+      border-radius: 12px;
       max-width: 500px;
       margin: auto;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    #pregunta {
+      font-size: 16px;
+      margin-bottom: 15px;
     }
 
     button {
       display: block;
-      margin: 10px auto;
-      padding: 10px;
       width: 100%;
+      margin: 8px 0;
+      padding: 12px;
       border: none;
-      border-radius: 5px;
-      background: #ddd;
-      cursor: pointer;
+      border-radius: 8px;
+      background: #e0e0e0;
+      font-size: 14px;
+      text-align: left;
     }
 
-    button:hover {
-      background: #ccc;
+    button:active {
+      transform: scale(0.98);
     }
 
     .correcta {
@@ -45,19 +59,35 @@
     }
 
     #resultado {
-      font-size: 20px;
+      font-size: 18px;
       margin-top: 15px;
+      font-weight: bold;
+      text-align: center;
     }
 
     #explicacion {
       margin-top: 10px;
-      font-style: italic;
+      font-size: 14px;
+      background: #fafafa;
+      padding: 10px;
+      border-radius: 8px;
+    }
+
+    #siguiente {
+      margin-top: 15px;
+      background: #2196F3;
+      color: white;
+      font-weight: bold;
+    }
+
+    #siguiente:active {
+      background: #1976D2;
     }
   </style>
 </head>
 <body>
 
-<h1>📘 Test modo examen</h1>
+<h1>📘 Test</h1>
 
 <div class="card">
   <div id="pregunta"></div>
@@ -120,11 +150,13 @@ function responder(indice, boton) {
 
   if (indice === correcta) {
     document.getElementById("resultado").innerText = "✅ Correcto";
+    document.getElementById("explicacion").innerText =
+      preguntas[actual].explicacion || "";
     aciertos++;
   } else {
     document.getElementById("resultado").innerText = "❌ Incorrecto";
     document.getElementById("explicacion").innerText =
-      "Explicación: revisa el temario, esta era la respuesta correcta.";
+      preguntas[actual].explicacion || "";
   }
 
   document.getElementById("siguiente").style.display = "block";
