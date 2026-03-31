@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registro</title>
+
+<style>
+body {
+  margin:0;
+  font-family:'Segoe UI';
+  background:linear-gradient(135deg,#667eea,#764ba2);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+
+.card {
+  background:white;
+  padding:30px;
+  border-radius:20px;
+  width:90%;
+  max-width:350px;
+  text-align:center;
+}
+
+input {
+  width:100%;
+  padding:12px;
+  margin:8px 0;
+  border-radius:10px;
+  border:1px solid #ddd;
+}
+
+button {
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  border:none;
+  border-radius:10px;
+  background:#764ba2;
+  color:white;
+}
+
+.link {
+  margin-top:10px;
+  display:block;
+  color:#764ba2;
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h2>📝 Crear cuenta</h2>
+
+  <input id="email" placeholder="Email">
+  <input id="password" type="password" placeholder="Contraseña">
+
+  <button onclick="register()">Registrarse</button>
+
+  <span class="link" onclick="goLogin()">Ya tengo cuenta</span>
+
+  <p id="msg"></p>
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword } 
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDXbFXZhI4AMJEC4p-gLznB0NdIFt5S9KQ",
+  authDomain: "testopo-5fee0.firebaseapp.com",
+  projectId: "testopo-5fee0",
+  storageBucket: "testopo-5fee0.firebasestorage.app",
+  messagingSenderId: "1079888572782",
+  appId: "1:1079888572782:web:b21bdfd01ddbc414c8917f",
+  measurementId: "G-496XVBQGB2"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+window.register = () => {
+  createUserWithEmailAndPassword(auth, email.value, password.value)
+    .then(() => {
+      msg.innerText="Cuenta creada ✅";
+      setTimeout(() => window.location="index.html", 1000);
+    })
+    .catch(e => msg.innerText=e.message);
+}
+
+window.goLogin = () => {
+  window.location = "index.html";
+}
+
+</script>
+
+</body>
+</html>
