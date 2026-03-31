@@ -60,10 +60,15 @@ let preguntasGlobal = [];
 let respuestasUsuario = [];
 
 fetch("preguntas.json")
-  .then(res => res.json())
+  .then(res => {
+    if (!res.ok) {
+      throw new Error("No se pudo cargar preguntas.json");
+    }
+    return res.json();
+  })
   .then(preguntas => {
 
-    console.log("Total preguntas:", preguntas.length);
+    console.log("Preguntas cargadas:", preguntas);
 
     preguntasGlobal = preguntas;
 
@@ -76,14 +81,23 @@ fetch("preguntas.json")
 
       let html = `<p><strong>${index + 1}. ${p.pregunta}</strong></p>`;
 
+      const letras = ["A", "B", "C", "D"];
+
       p.opciones.forEach((op, i) => {
-        html += `<button onclick="responder(${index}, ${i}, this)">${op}</button>`;
+        html += `<button onclick="responder(${index}, ${i}, this)">
+          ${letras[i]}) ${op}
+        </button>`;
       });
 
       div.innerHTML = html;
       contenedor.appendChild(div);
     });
 
+  })
+  .catch(error => {
+    console.error("ERROR:", error);
+    document.getElementById("contenedor").innerHTML =
+      "<p style='color:red'>Error cargando preguntas.json</p>";
   });
 
 function responder(preguntaIndex, opcionIndex, boton) {
