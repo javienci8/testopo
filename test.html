@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Test modo examen</title>
+  <title>Test PRO</title>
 
   <style>
     body {
@@ -13,8 +13,9 @@
       padding: 15px;
     }
 
-    h1 {
-      text-align: center;
+    body.dark {
+      background: #121212;
+      color: white;
     }
 
     .card {
@@ -25,30 +26,8 @@
       margin: auto;
     }
 
-    #contador {
-      text-align: center;
-      font-size: 14px;
-      margin-bottom: 5px;
-    }
-
-    #barra {
-      height: 10px;
-      background: #ddd;
-      border-radius: 5px;
-      overflow: hidden;
-      margin-bottom: 10px;
-    }
-
-    #progreso {
-      height: 100%;
-      width: 0%;
-      background: #4CAF50;
-    }
-
-    #tiempo {
-      text-align: center;
-      font-weight: bold;
-      margin-bottom: 10px;
+    body.dark .card {
+      background: #1e1e1e;
     }
 
     button {
@@ -59,56 +38,44 @@
       border: none;
       border-radius: 8px;
       background: #ddd;
-      font-size: 14px;
-      text-align: left;
     }
 
-    .correcta {
-      background: #4CAF50;
+    body.dark button {
+      background: #333;
       color: white;
     }
 
-    .incorrecta {
-      background: #f44336;
-      color: white;
-    }
+    .correcta { background: #4CAF50; color: white; }
+    .incorrecta { background: #f44336; color: white; }
 
-    #resultado {
-      font-size: 18px;
-      margin-top: 10px;
+    #stats, #contador, #tiempo {
       text-align: center;
+      margin: 5px 0;
     }
 
-    #explicacion {
-      margin-top: 10px;
-      background: #fafafa;
-      padding: 10px;
-      border-radius: 8px;
+    #barra {
+      height: 10px;
+      background: #ddd;
+      border-radius: 5px;
+      overflow: hidden;
     }
 
-    #siguiente {
-      background: #2196F3;
-      color: white;
-      font-weight: bold;
-    }
-
-    #repetir {
-      background: #ff9800;
-      color: white;
-      margin-top: 10px;
+    #progreso {
+      height: 100%;
+      width: 0%;
+      background: #4CAF50;
     }
   </style>
 </head>
 <body>
 
-<h1>📘 Test</h1>
+<button onclick="toggleModo()">🌙 Cambiar modo</button>
 
 <div class="card">
   <div id="contador"></div>
+  <div id="stats"></div>
 
-  <div id="barra">
-    <div id="progreso"></div>
-  </div>
+  <div id="barra"><div id="progreso"></div></div>
 
   <div id="tiempo">⏱ 0s</div>
 
@@ -125,6 +92,7 @@ let preguntas = [];
 let fallos = [];
 let actual = 0;
 let aciertos = 0;
+let errores = 0;
 let tiempo = 0;
 
 setInterval(() => {
@@ -136,6 +104,7 @@ fetch("preguntas.json")
   .then(res => res.json())
   .then(data => {
     preguntas = data;
+    cargarProgreso();
     mostrarPregunta();
   });
 
@@ -145,20 +114,21 @@ function mostrarPregunta() {
   document.getElementById("contador").innerText =
     `Pregunta ${actual + 1} de ${preguntas.length}`;
 
-  document.getElementById("pregunta").innerHTML =
-    `<strong>${p.pregunta}</strong>`;
+  document.getElementById("stats").innerText =
+    `✅ ${aciertos} | ❌ ${errores}`;
 
   document.getElementById("progreso").style.width =
     `${(actual / preguntas.length) * 100}%`;
 
+  document.getElementById("pregunta").innerHTML =
+    `<strong>${p.pregunta}</strong>`;
+
   const contenedor = document.getElementById("opciones");
   contenedor.innerHTML = "";
 
-  const letras = ["A", "B", "C", "D"];
-
   p.opciones.forEach((op, i) => {
     const btn = document.createElement("button");
-    btn.innerText = `${letras[i]}) ${op}`;
+    btn.innerText = op;
     btn.onclick = () => responder(i, btn);
     contenedor.appendChild(btn);
   });
@@ -174,28 +144,30 @@ function responder(indice, boton) {
 
   botones.forEach((btn, i) => {
     btn.disabled = true;
-
     if (i === correcta) btn.classList.add("correcta");
     if (i === indice && i !== correcta) btn.classList.add("incorrecta");
   });
 
   if (indice === correcta) {
-    document.getElementById("resultado").innerText = "✅ Correcto";
     aciertos++;
   } else {
-    document.getElementById("resultado").innerText = "❌ Incorrecto";
+    errores++;
     fallos.push(preguntas[actual]);
   }
 
+  document.getElementById("resultado").innerText =
+    indice === correcta ? "✅ Correcto" : "❌ Incorrecto";
+
   document.getElementById("explicacion").innerText =
     preguntas[actual].explicacion || "";
+
+  guardarProgreso();
 
   document.getElementById("siguiente").style.display = "block";
 }
 
 function siguientePregunta() {
   actual++;
-
   if (actual < preguntas.length) {
     mostrarPregunta();
   } else {
@@ -204,29 +176,47 @@ function siguientePregunta() {
 }
 
 function finTest() {
-  const nota = ((aciertos / preguntas.length) * 10).toFixed(2);
+  if (fallos.length > 0) {
+    document.querySelector(".card").innerHTML =
+      `<h2>Test terminado</h2>
+       <p>✅ ${aciertos} | ❌ ${errores}</p>
+       <button onclick="repetirFallos()">Repetir hasta acertar TODO</button>`;
+  } else {
+    document.querySelector(".card").innerHTML =
+      `<h2>Perfecto 🎉</h2>
+       <p>Todo correcto</p>`;
+  }
 
-  document.querySelector(".card").innerHTML =
-    `<h2>Test terminado</h2>
-     <p>Aciertos: ${aciertos} / ${preguntas.length}</p>
-     <p>Nota: ${nota} / 10</p>
-     <p>Tiempo: ${tiempo}s</p>
-     <button id="repetir" onclick="repetirFallos()">Repetir fallos</button>`;
+  localStorage.removeItem("progreso");
 }
 
 function repetirFallos() {
-  if (fallos.length === 0) {
-    alert("No has fallado ninguna 🎉");
-    return;
-  }
-
   preguntas = [...fallos];
   fallos = [];
   actual = 0;
   aciertos = 0;
-  tiempo = 0;
+  errores = 0;
+  mostrarPregunta();
+}
 
-  location.reload();
+function guardarProgreso() {
+  localStorage.setItem("progreso", JSON.stringify({
+    actual, aciertos, errores, fallos
+  }));
+}
+
+function cargarProgreso() {
+  const data = JSON.parse(localStorage.getItem("progreso"));
+  if (data) {
+    actual = data.actual;
+    aciertos = data.aciertos;
+    errores = data.errores;
+    fallos = data.fallos;
+  }
+}
+
+function toggleModo() {
+  document.body.classList.toggle("dark");
 }
 </script>
 
