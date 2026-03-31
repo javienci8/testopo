@@ -6,39 +6,76 @@
 <title>Login</title>
 
 <style>
+* {
+  box-sizing: border-box;
+}
+
 body {
-  margin:0;
-  font-family:'Segoe UI';
-  background:linear-gradient(135deg,#667eea,#764ba2);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg,#667eea,#764ba2);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
+/* CARD */
 .card {
-  background:white;
-  padding:25px;
-  border-radius:20px;
-  width:300px;
-  text-align:center;
+  background: white;
+  padding: 30px 25px;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 350px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }
 
+/* TITULO */
+h2 {
+  margin-bottom: 20px;
+}
+
+/* INPUTS */
 input {
-  width:100%;
-  padding:12px;
-  margin:8px 0;
-  border-radius:10px;
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  outline: none;
+  transition: 0.2s;
 }
 
+input:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 5px rgba(102,126,234,0.4);
+}
+
+/* BOTONES */
 button {
-  width:100%;
-  padding:12px;
-  margin-top:10px;
-  border:none;
-  border-radius:10px;
-  background:#667eea;
-  color:white;
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg,#667eea,#764ba2);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+button:hover {
+  transform: scale(1.03);
+  opacity: 0.9;
+}
+
+/* MENSAJE */
+#msg {
+  margin-top: 10px;
+  font-size: 14px;
 }
 </style>
 </head>
@@ -78,14 +115,14 @@ const auth = getAuth(app);
 
 window.register = () => {
   createUserWithEmailAndPassword(auth, email.value, password.value)
-    .then(() => msg.innerText="Usuario creado")
+    .then(() => msg.innerText="Usuario creado ✅")
     .catch(e => msg.innerText=e.message);
 }
 
 window.login = () => {
   signInWithEmailAndPassword(auth, email.value, password.value)
     .then(() => window.location="menu.html")
-    .catch(e => msg.innerText="Error login");
+    .catch(e => msg.innerText="Error login ❌");
 }
 
 </script>
