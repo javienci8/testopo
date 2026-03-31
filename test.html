@@ -1,247 +1,129 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Test App</title>
+  <meta charset="UTF-8">
+  <title>Test completo</title>
+  <style>
+    body {
+      font-family: Arial;
+      background: #f0f0f0;
+      padding: 20px;
+    }
 
-<style>
-* { box-sizing: border-box; }
+    h1 {
+      text-align: center;
+    }
 
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: #f5f7fb;
-}
+    .pregunta {
+      background: white;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 10px;
+    }
 
-/* HEADER */
-.header {
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  color: white;
-  padding: 15px;
-  text-align: center;
-  font-size: 18px;
-  font-weight: bold;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
-}
+    button {
+      display: block;
+      margin: 5px 0;
+      padding: 8px;
+      width: 100%;
+      cursor: pointer;
+    }
 
-/* CONTENEDOR */
-.container {
-  padding: 15px;
-  max-width: 500px;
-  margin: auto;
-}
+    .correcta {
+      background-color: #4CAF50;
+      color: white;
+    }
 
-/* CARD */
-.card {
-  background: white;
-  border-radius: 20px;
-  padding: 20px;
-  margin-top: -20px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-  animation: fadeIn 0.3s ease;
-}
+    .incorrecta {
+      background-color: #f44336;
+      color: white;
+    }
 
-/* PROGRESO */
-.progress-container {
-  background: #eee;
-  border-radius: 10px;
-  height: 8px;
-  overflow: hidden;
-  margin-bottom: 10px;
-}
-
-.progress-bar {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, #667eea, #764ba2);
-  transition: 0.3s;
-}
-
-/* CONTADOR */
-.counter {
-  font-size: 13px;
-  color: #666;
-  margin-bottom: 10px;
-}
-
-/* PREGUNTA */
-#pregunta {
-  font-size: 18px;
-  margin-bottom: 15px;
-}
-
-/* RESPUESTAS */
-#respuestas button {
-  width: 100%;
-  padding: 14px;
-  margin: 8px 0;
-  border: none;
-  border-radius: 12px;
-  background: #f1f3f9;
-  font-size: 15px;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-#respuestas button:hover {
-  background: #e0e5ff;
-  transform: scale(1.02);
-}
-
-/* FEEDBACK */
-.correcto { color: #2ecc71; font-weight: bold; }
-.incorrecto { color: #e74c3c; font-weight: bold; }
-
-/* EXPLICACIÓN */
-#explicacion {
-  margin-top: 10px;
-  font-size: 14px;
-  color: #555;
-}
-
-/* BOTÓN */
-.next-btn {
-  margin-top: 15px;
-  padding: 14px;
-  width: 100%;
-  border: none;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-/* RESULTADO */
-#resultado {
-  margin-top: 20px;
-  font-size: 20px;
-  font-weight: bold;
-}
-
-/* ANIMACIÓN */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px);}
-  to { opacity: 1; transform: translateY(0);}
-}
-</style>
-
+    #resultado {
+      font-size: 20px;
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
 
-<div class="header">
-  📚 Test App
-</div>
+<h1>📘 Test completo</h1>
 
-<div class="container">
-  <div class="card">
+<div id="contenedor"></div>
+<button onclick="corregir()">Corregir test</button>
 
-    <div class="progress-container">
-      <div class="progress-bar" id="progress"></div>
-    </div>
-
-    <div class="counter" id="contador"></div>
-
-    <h2 id="pregunta">Cargando...</h2>
-
-    <div id="respuestas"></div>
-
-    <div id="feedback"></div>
-    <div id="explicacion"></div>
-
-    <button class="next-btn" onclick="siguiente()">Siguiente</button>
-
-    <div id="resultado"></div>
-
-  </div>
-</div>
+<div id="resultado"></div>
 
 <script>
+let preguntasGlobal = [];
+let respuestasUsuario = [];
 
-let preguntas = [];
-let index = 0;
-let puntos = 0;
-let respondida = false;
-
-const params = new URLSearchParams(window.location.search);
-const archivo = params.get("test") || "preguntas.json";
-
-fetch(archivo)
+fetch("preguntas.json")
   .then(res => res.json())
-  .then(data => {
-    preguntas = data;
-    cargarPregunta();
+  .then(preguntas => {
+
+    console.log("Total preguntas:", preguntas.length);
+
+    preguntasGlobal = preguntas;
+
+    const contenedor = document.getElementById("contenedor");
+
+    preguntas.forEach((p, index) => {
+
+      const div = document.createElement("div");
+      div.className = "pregunta";
+
+      let html = `<p><strong>${index + 1}. ${p.pregunta}</strong></p>`;
+
+      p.opciones.forEach((op, i) => {
+        html += `<button onclick="responder(${index}, ${i}, this)">${op}</button>`;
+      });
+
+      div.innerHTML = html;
+      contenedor.appendChild(div);
+    });
+
   });
 
-function actualizarUI() {
-  document.getElementById("progress").style.width =
-    (index / preguntas.length) * 100 + "%";
+function responder(preguntaIndex, opcionIndex, boton) {
+  respuestasUsuario[preguntaIndex] = opcionIndex;
 
-  document.getElementById("contador").innerText =
-    "Pregunta " + (index + 1) + " de " + preguntas.length;
+  const botones = boton.parentElement.querySelectorAll("button");
+  botones.forEach(b => b.classList.remove("seleccionado"));
+
+  boton.classList.add("seleccionado");
 }
 
-function cargarPregunta() {
-  respondida = false;
-  actualizarUI();
+function corregir() {
+  let aciertos = 0;
 
-  const p = preguntas[index];
+  document.querySelectorAll(".pregunta").forEach((div, index) => {
 
-  document.getElementById("pregunta").innerText = p.pregunta;
+    const botones = div.querySelectorAll("button");
+    const correcta = preguntasGlobal[index].respuesta;
 
-  const cont = document.getElementById("respuestas");
-  cont.innerHTML = "";
+    botones.forEach((btn, i) => {
+      btn.classList.remove("correcta", "incorrecta");
 
-  p.respuestas.forEach((r, i) => {
-    const btn = document.createElement("button");
-    btn.innerText = r;
-    btn.onclick = () => responder(i);
-    cont.appendChild(btn);
+      if (i === correcta) {
+        btn.classList.add("correcta");
+      }
+
+      if (respuestasUsuario[index] === i && i !== correcta) {
+        btn.classList.add("incorrecta");
+      }
+    });
+
+    if (respuestasUsuario[index] === correcta) {
+      aciertos++;
+    }
+
   });
 
-  document.getElementById("feedback").innerText = "";
-  document.getElementById("explicacion").innerText = "";
+  document.getElementById("resultado").innerText =
+    `Has acertado ${aciertos} de ${preguntasGlobal.length}`;
 }
-
-function responder(i) {
-  if (respondida) return;
-  respondida = true;
-
-  const p = preguntas[index];
-
-  if (i === p.correcta) {
-    puntos++;
-    document.getElementById("feedback").innerText = "✅ Correcto";
-    document.getElementById("feedback").className = "correcto";
-  } else {
-    document.getElementById("feedback").innerText = "❌ Incorrecto";
-    document.getElementById("feedback").className = "incorrecto";
-    document.getElementById("explicacion").innerText = p.explicacion;
-  }
-}
-
-function siguiente() {
-  index++;
-
-  if (index < preguntas.length) {
-    cargarPregunta();
-  } else {
-    document.getElementById("progress").style.width = "100%";
-    document.getElementById("contador").innerText = "";
-    document.getElementById("pregunta").innerText = "🎉 Test terminado";
-    document.getElementById("respuestas").innerHTML = "";
-    document.getElementById("resultado").innerText =
-      "Resultado: " + puntos + "/" + preguntas.length;
-  }
-}
-
-</script>
-
-</body>
-</html>
-
 </script>
 
 </body>
