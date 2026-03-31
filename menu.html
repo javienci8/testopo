@@ -1,12 +1,82 @@
 <!DOCTYPE html>
-<html>
-<body style="font-family:Segoe UI;text-align:center;margin-top:50px;">
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menú</title>
 
-<h2 id="user"></h2>
+<style>
+body {
+  margin:0;
+  font-family:'Segoe UI';
+  background:linear-gradient(135deg,#667eea,#764ba2);
+  color:white;
+}
 
-<button onclick="ir()">📚 Empezar Test</button>
-<br><br>
-<button onclick="logout()">Cerrar sesión</button>
+/* HEADER */
+.header {
+  padding:20px;
+  text-align:center;
+  font-size:18px;
+  font-weight:bold;
+}
+
+/* CONTENIDO */
+.container {
+  padding:20px;
+}
+
+/* TARJETAS */
+.card {
+  background:white;
+  color:black;
+  padding:20px;
+  margin-bottom:15px;
+  border-radius:15px;
+  box-shadow:0 5px 15px rgba(0,0,0,0.2);
+  cursor:pointer;
+  transition:0.2s;
+}
+
+.card:hover {
+  transform:scale(1.02);
+}
+
+/* BOTON */
+.logout {
+  margin-top:20px;
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  background:#ff4d4d;
+  color:white;
+  width:100%;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header" id="user"></div>
+
+<div class="container">
+
+  <!-- TESTS -->
+  <div class="card" onclick="irTest()">
+    📚 <b>Test de Administración</b><br>
+    <small>Haz el test completo</small>
+  </div>
+
+  <!-- HISTORIAL -->
+  <div class="card" onclick="verHistorial()">
+    📊 <b>Historial</b><br>
+    <small>Ver tus resultados</small>
+  </div>
+
+  <!-- LOGOUT -->
+  <button class="logout" onclick="logout()">Cerrar sesión</button>
+
+</div>
 
 <script type="module">
 
@@ -27,6 +97,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
+// 🔒 PROTEGER
 onAuthStateChanged(auth, user => {
   if (user) {
     document.getElementById("user").innerText = "👤 " + user.email;
@@ -35,9 +106,18 @@ onAuthStateChanged(auth, user => {
   }
 });
 
-window.ir = () => window.location="test.html";
+// 🔥 IR AL TEST
+window.irTest = function() {
+  window.location = "test.html";
+}
 
-window.logout = () => {
+// 🔥 HISTORIAL (LO HAREMOS DESPUÉS)
+window.verHistorial = function() {
+  alert("Próximamente historial 🔥");
+}
+
+// 🔥 LOGOUT
+window.logout = function() {
   signOut(auth).then(() => window.location="index.html");
 }
 
@@ -45,3 +125,6 @@ window.logout = () => {
 
 </body>
 </html>
+
+
+
