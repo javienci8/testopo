@@ -111,7 +111,13 @@ let preguntas = [];
 let index = 0;
 let puntos = 0;
 let respondida = false;
-
+  
+const pregunta = document.getElementById("pregunta");
+const respuestas = document.getElementById("respuestas");
+const feedback = document.getElementById("feedback");
+const explicacion = document.getElementById("explicacion");
+const resultado = document.getElementById("resultado");
+  
 // 🔥 CARGAR PREGUNTAS
 fetch("preguntas.json")
 .then(res => res.json())
