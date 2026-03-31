@@ -2,39 +2,111 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Test Tema 1</title>
+<title>Test PRO</title>
 
 <style>
 body {
-  font-family: Arial;
-  background: #f4f4f4;
-  text-align: center;
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
 }
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
 .card {
   background: white;
-  padding: 20px;
-  margin: auto;
+  color: black;
+  padding: 30px;
+  border-radius: 20px;
+  width: 90%;
   max-width: 600px;
-  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  text-align: center;
 }
-button {
-  margin: 10px;
-  padding: 10px;
+
+h2 {
+  margin-bottom: 20px;
+}
+
+#respuestas button {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: #f0f0f0;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 16px;
+}
+
+#respuestas button:hover {
+  background: #ddd;
+}
+
+.correcto {
+  color: #2ecc71;
+  font-weight: bold;
+}
+
+.incorrecto {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+#explicacion {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #555;
+}
+
+.next-btn {
+  margin-top: 20px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  background: #667eea;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.next-btn:hover {
+  background: #5563c1;
+}
+
+#resultado {
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: bold;
 }
 </style>
 
 </head>
 <body>
 
-<div class="card">
+<div class="container">
+  <div class="card">
 
-<h2 id="pregunta"></h2>
-<div id="respuestas"></div>
+    <h2 id="pregunta">Cargando...</h2>
 
-<button onclick="siguiente()">Siguiente</button>
+    <div id="respuestas"></div>
 
-<h3 id="resultado"></h3>
+    <div id="feedback"></div>
+    <div id="explicacion"></div>
 
+    <button class="next-btn" onclick="siguiente()">Siguiente</button>
+
+    <div id="resultado"></div>
+
+  </div>
 </div>
 
 <script>
@@ -42,8 +114,9 @@ button {
 let preguntas = [];
 let index = 0;
 let puntos = 0;
+let respondida = false;
 
-// 🔥 Cargar JSON
+// Cargar preguntas
 fetch("preguntas.json")
   .then(res => res.json())
   .then(data => {
@@ -52,9 +125,12 @@ fetch("preguntas.json")
   });
 
 function cargarPregunta() {
+  respondida = false;
+
+  document.getElementById("feedback").innerText = "";
+  document.getElementById("explicacion").innerText = "";
 
   const p = preguntas[index];
-
   document.getElementById("pregunta").innerText = p.pregunta;
 
   const cont = document.getElementById("respuestas");
@@ -63,14 +139,26 @@ function cargarPregunta() {
   p.respuestas.forEach((r, i) => {
     const btn = document.createElement("button");
     btn.innerText = r;
-
-    btn.onclick = () => {
-      if (i === p.correcta) puntos++;
-      siguiente();
-    };
-
+    btn.onclick = () => responder(i);
     cont.appendChild(btn);
   });
+}
+
+function responder(i) {
+  if (respondida) return;
+  respondida = true;
+
+  const p = preguntas[index];
+
+  if (i === p.correcta) {
+    puntos++;
+    document.getElementById("feedback").innerHTML = "✅ Correcto";
+    document.getElementById("feedback").className = "correcto";
+  } else {
+    document.getElementById("feedback").innerHTML = "❌ Incorrecto";
+    document.getElementById("feedback").className = "incorrecto";
+    document.getElementById("explicacion").innerText = p.explicacion;
+  }
 }
 
 function siguiente() {
@@ -81,6 +169,8 @@ function siguiente() {
   } else {
     document.getElementById("pregunta").innerText = "Test terminado";
     document.getElementById("respuestas").innerHTML = "";
+    document.getElementById("feedback").innerText = "";
+    document.getElementById("explicacion").innerText = "";
     document.getElementById("resultado").innerText =
       "Resultado: " + puntos + "/" + preguntas.length;
   }
