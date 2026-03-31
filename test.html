@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI';
+  background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 500px;
+  text-align: center;
+}
+
+.progress-container {
+  background: #eee;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 15px;
+}
+
+.progress-bar {
+  height: 10px;
+  width: 0%;
+  background: #667eea;
+}
+
+#respuestas button {
+  width: 100%;
+  margin: 8px 0;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: #f5f5f5;
+  cursor: pointer;
+}
+
+.correcto { color: green; }
+.incorrecto { color: red; }
+
+button.next {
+  margin-top: 10px;
+  padding: 10px;
+  width: 100%;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 10px;
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+  <div class="card">
+
+    <div class="progress-container">
+      <div class="progress-bar" id="progress"></div>
+    </div>
+
+    <h2 id="pregunta">Cargando...</h2>
+    <div id="respuestas"></div>
+
+    <div id="feedback"></div>
+    <div id="explicacion"></div>
+
+    <button class="next" onclick="siguiente()">Siguiente</button>
+
+    <div id="resultado"></div>
+
+  </div>
+</div>
+
+<script>
+
+let preguntas = [];
+let index = 0;
+let puntos = 0;
+let respondida = false;
+
+// 🔥 LEER QUÉ TEST HAS ELEGIDO
+const params = new URLSearchParams(window.location.search);
+const archivo = params.get("test") || "preguntas.json";
+
+// 🔥 CARGAR ESE JSON
+fetch(archivo)
+  .then(res => res.json())
+  .then(data => {
+    preguntas = data;
+    cargarPregunta();
+  });
+
+function actualizarProgreso() {
+  document.getElementById("progress").style.width =
+    (index / preguntas.length) * 100 + "%";
+}
+
+function cargarPregunta() {
+  respondida = false;
+  actualizarProgreso();
+
+  const p = preguntas[index];
+  document.getElementById("pregunta").innerText = p.pregunta;
+
+  const cont = document.getElementById("respuestas");
+  cont.innerHTML = "";
+
+  p.respuestas.forEach((r, i) => {
+    const btn = document.createElement("button");
+    btn.innerText = r;
+    btn.onclick = () => responder(i);
+    cont.appendChild(btn);
+  });
+
+  document.getElementById("feedback").innerText = "";
+  document.getElementById("explicacion").innerText = "";
+}
+
+function responder(i) {
+  if (respondida) return;
+  respondida = true;
+
+  const p = preguntas[index];
+
+  if (i === p.correcta) {
+    puntos++;
+    document.getElementById("feedback").innerText = "Correcto";
+    document.getElementById("feedback").className = "correcto";
+  } else {
+    document.getElementById("feedback").innerText = "Incorrecto";
+    document.getElementById("feedback").className = "incorrecto";
+    document.getElementById("explicacion").innerText = p.explicacion;
+  }
+}
+
+function siguiente() {
+  index++;
+
+  if (index < preguntas.length) {
+    cargarPregunta();
+  } else {
+    document.getElementById("pregunta").innerText = "Test terminado";
+    document.getElementById("respuestas").innerHTML = "";
+    document.getElementById("resultado").innerText =
+      "Resultado: " + puntos + "/" + preguntas.length;
+  }
+}
+
+</script>
+
+</body>
+</html>
