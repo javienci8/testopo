@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<body style="font-family:Segoe UI;text-align:center;margin-top:30px;">
+
+<h2>Crear Test</h2>
+
+<input id="titulo" placeholder="Título del test"><br><br>
+
+<textarea id="pregunta" placeholder="Pregunta"></textarea><br><br>
+
+<input id="r1" placeholder="Respuesta 1"><br>
+<input id="r2" placeholder="Respuesta 2"><br>
+<input id="r3" placeholder="Respuesta 3"><br><br>
+
+<input id="correcta" placeholder="Respuesta correcta (0,1,2)"><br><br>
+
+<button onclick="guardar()">Guardar Test</button>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, addDoc } 
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getAuth } 
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDXbFXZhI4AMJEC4p-gLznB0NdIFt5S9KQ",
+  authDomain: "testopo-5fee0.firebaseapp.com",
+  projectId: "testopo-5fee0",
+  storageBucket: "testopo-5fee0.firebasestorage.app",
+  messagingSenderId: "1079888572782",
+  appId: "1:1079888572782:web:b21bdfd01ddbc414c8917f",
+  measurementId: "G-496XVBQGB2"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+window.guardar = async () => {
+
+  const user = auth.currentUser;
+
+  if (!user) return alert("No logueado");
+
+  await addDoc(collection(db, "tests"), {
+    titulo: titulo.value,
+    creador: user.uid,
+    preguntas: [
+      {
+        pregunta: pregunta.value,
+        respuestas: [r1.value, r2.value, r3.value],
+        correcta: parseInt(correcta.value)
+      }
+    ]
+  });
+
+  alert("Test guardado 🔥");
+}
+
+</script>
+
+</body>
+</html>
