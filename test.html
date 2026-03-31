@@ -2,141 +2,144 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Test completo</title>
+  <title>Test modo examen</title>
   <style>
     body {
       font-family: Arial;
       background: #f0f0f0;
       padding: 20px;
-    }
-
-    h1 {
       text-align: center;
     }
 
-    .pregunta {
+    .card {
       background: white;
-      padding: 15px;
-      margin-bottom: 15px;
+      padding: 20px;
       border-radius: 10px;
+      max-width: 500px;
+      margin: auto;
     }
 
     button {
       display: block;
-      margin: 5px 0;
-      padding: 8px;
+      margin: 10px auto;
+      padding: 10px;
       width: 100%;
+      border: none;
+      border-radius: 5px;
+      background: #ddd;
       cursor: pointer;
     }
 
+    button:hover {
+      background: #ccc;
+    }
+
     .correcta {
-      background-color: #4CAF50;
+      background: #4CAF50;
       color: white;
     }
 
     .incorrecta {
-      background-color: #f44336;
+      background: #f44336;
       color: white;
     }
 
     #resultado {
       font-size: 20px;
-      text-align: center;
-      margin-top: 20px;
+      margin-top: 15px;
+    }
+
+    #explicacion {
+      margin-top: 10px;
+      font-style: italic;
     }
   </style>
 </head>
 <body>
 
-<h1>📘 Test completo</h1>
+<h1>📘 Test modo examen</h1>
 
-<div id="contenedor"></div>
-<button onclick="corregir()">Corregir test</button>
-
-<div id="resultado"></div>
+<div class="card">
+  <div id="pregunta"></div>
+  <div id="opciones"></div>
+  <div id="resultado"></div>
+  <div id="explicacion"></div>
+  <button id="siguiente" onclick="siguientePregunta()" style="display:none;">Siguiente</button>
+</div>
 
 <script>
-let preguntasGlobal = [];
-let respuestasUsuario = [];
+let preguntas = [];
+let actual = 0;
+let aciertos = 0;
 
 fetch("preguntas.json")
-  .then(res => {
-    if (!res.ok) {
-      throw new Error("No se pudo cargar preguntas.json");
-    }
-    return res.json();
-  })
-  .then(preguntas => {
-
-    console.log("Preguntas cargadas:", preguntas);
-
-    preguntasGlobal = preguntas;
-
-    const contenedor = document.getElementById("contenedor");
-
-    preguntas.forEach((p, index) => {
-
-      const div = document.createElement("div");
-      div.className = "pregunta";
-
-      let html = `<p><strong>${index + 1}. ${p.pregunta}</strong></p>`;
-
-      const letras = ["A", "B", "C", "D"];
-
-      p.opciones.forEach((op, i) => {
-        html += `<button onclick="responder(${index}, ${i}, this)">
-          ${letras[i]}) ${op}
-        </button>`;
-      });
-
-      div.innerHTML = html;
-      contenedor.appendChild(div);
-    });
-
-  })
-  .catch(error => {
-    console.error("ERROR:", error);
-    document.getElementById("contenedor").innerHTML =
-      "<p style='color:red'>Error cargando preguntas.json</p>";
+  .then(res => res.json())
+  .then(data => {
+    preguntas = data;
+    mostrarPregunta();
   });
 
-function responder(preguntaIndex, opcionIndex, boton) {
-  respuestasUsuario[preguntaIndex] = opcionIndex;
+function mostrarPregunta() {
+  const p = preguntas[actual];
 
-  const botones = boton.parentElement.querySelectorAll("button");
-  botones.forEach(b => b.classList.remove("seleccionado"));
+  document.getElementById("pregunta").innerHTML =
+    `<strong>${actual + 1}. ${p.pregunta}</strong>`;
 
-  boton.classList.add("seleccionado");
+  const contenedor = document.getElementById("opciones");
+  contenedor.innerHTML = "";
+
+  const letras = ["A", "B", "C", "D"];
+
+  p.opciones.forEach((op, i) => {
+    const btn = document.createElement("button");
+    btn.innerText = `${letras[i]}) ${op}`;
+    btn.onclick = () => responder(i, btn);
+    contenedor.appendChild(btn);
+  });
+
+  document.getElementById("resultado").innerText = "";
+  document.getElementById("explicacion").innerText = "";
+  document.getElementById("siguiente").style.display = "none";
 }
 
-function corregir() {
-  let aciertos = 0;
+function responder(indice, boton) {
+  const correcta = preguntas[actual].respuesta;
+  const botones = document.querySelectorAll("#opciones button");
 
-  document.querySelectorAll(".pregunta").forEach((div, index) => {
+  botones.forEach((btn, i) => {
+    btn.disabled = true;
 
-    const botones = div.querySelectorAll("button");
-    const correcta = preguntasGlobal[index].respuesta;
-
-    botones.forEach((btn, i) => {
-      btn.classList.remove("correcta", "incorrecta");
-
-      if (i === correcta) {
-        btn.classList.add("correcta");
-      }
-
-      if (respuestasUsuario[index] === i && i !== correcta) {
-        btn.classList.add("incorrecta");
-      }
-    });
-
-    if (respuestasUsuario[index] === correcta) {
-      aciertos++;
+    if (i === correcta) {
+      btn.classList.add("correcta");
     }
 
+    if (i === indice && i !== correcta) {
+      btn.classList.add("incorrecta");
+    }
   });
 
-  document.getElementById("resultado").innerText =
-    `Has acertado ${aciertos} de ${preguntasGlobal.length}`;
+  if (indice === correcta) {
+    document.getElementById("resultado").innerText = "✅ Correcto";
+    aciertos++;
+  } else {
+    document.getElementById("resultado").innerText = "❌ Incorrecto";
+    document.getElementById("explicacion").innerText =
+      "Explicación: revisa el temario, esta era la respuesta correcta.";
+  }
+
+  document.getElementById("siguiente").style.display = "block";
+}
+
+function siguientePregunta() {
+  actual++;
+
+  if (actual < preguntas.length) {
+    mostrarPregunta();
+  } else {
+    document.querySelector(".card").innerHTML =
+      `<h2>Test terminado</h2>
+       <p>Has acertado ${aciertos} de ${preguntas.length}</p>`;
+  }
 }
 </script>
 
