@@ -1,40 +1,272 @@
 [
-{"pregunta":"El conjunto de órganos administrativos que realizan unos trabajos para satisfacer las necesidades de los ciudadanos, organizaciones e instituciones es:","respuestas":["La Administración","Procedimiento","Personalidad jurídica"],"correcta":0,"explicacion":"La Administración es el conjunto de órganos que prestan servicios."},
-{"pregunta":"Un grupo de personas dentro de la Administración que toma decisiones con efectos legales es:","respuestas":["La Administración","Los órganos administrativos","La personalidad jurídica"],"correcta":1,"explicacion":"Los órganos administrativos toman decisiones jurídicas."},
-{"pregunta":"La Administración siempre sigue:","respuestas":["Un procedimiento","Las indicaciones del Gobierno","Las dos respuestas son correctas"],"correcta":2,"explicacion":"Sigue procedimientos y directrices."},
-{"pregunta":"El modo de ejecutar tareas con pasos definidos es:","respuestas":["Coordinación","Descentralización","Procedimiento"],"correcta":2,"explicacion":"Un procedimiento define cómo actuar."},
-{"pregunta":"Qué es tener personalidad jurídica:","respuestas":["Responder jurídicamente","Tener derechos y obligaciones","Las dos respuestas son correctas"],"correcta":2,"explicacion":"Implica derechos y obligaciones."},
-{"pregunta":"Quién reconoce la personalidad jurídica:","respuestas":["El gobierno","Las leyes","Los ministros"],"correcta":1,"explicacion":"La ley lo reconoce."},
-{"pregunta":"Por qué la Administración es compleja:","respuestas":["Porque las instituciones necesitan servicios","Porque los ciudadanos necesitan servicios","Las dos respuestas son correctas"],"correcta":2,"explicacion":"Hay muchas necesidades."},
-{"pregunta":"Tener bienes propios significa:","respuestas":["Personalidad jurídica","Patrimonio","Las dos respuestas son correctas"],"correcta":1,"explicacion":"El patrimonio son los bienes."},
-{"pregunta":"La ley más importante de España es:","respuestas":["Los reglamentos","La Constitución","La Constitución de 1978"],"correcta":1,"explicacion":"La Constitución es la norma suprema."},
-{"pregunta":"La Constitución regula:","respuestas":["La Corona y las Cortes","Las Cortes, la Corona y el Gobierno","Las Cortes y el Gobierno"],"correcta":1,"explicacion":"Regula los órganos principales."},
-{"pregunta":"Hacer las cosas sin favoritismos es:","respuestas":["Subjetividad","Objetividad","Intereses generales"],"correcta":1,"explicacion":"La objetividad evita favoritismos."},
-{"pregunta":"Pensar en lo que es bueno para todos es:","respuestas":["Subjetividad","Objetividad","Intereses generales"],"correcta":2,"explicacion":"Es el interés general."},
-{"pregunta":"La Administración debe actuar con:","respuestas":["Eficacia, jerarquía, descentralización, coordinación y legalidad","Eficacia, jerarquía, descentralización, concentración, coordinación y legalidad","Eficacia, jerarquía, descentralización, desconcentración, coordinación y legalidad"],"correcta":2,"explicacion":"Principios constitucionales."},
-{"pregunta":"Actuar correctamente y rápido es:","respuestas":["Descentralización","Coordinación","Eficacia"],"correcta":2,"explicacion":"Eficacia es lograr objetivos."},
-{"pregunta":"Organización por niveles es:","respuestas":["Eficacia","Jerarquía","Coordinación"],"correcta":1,"explicacion":"Jerarquía implica niveles."},
-{"pregunta":"Repartir trabajo es:","respuestas":["Eficacia","Jerarquía","Descentralización"],"correcta":2,"explicacion":"Distribuye funciones."},
-{"pregunta":"Actuar conjuntamente es:","respuestas":["Coordinación","Jerarquía","Desconcentración"],"correcta":0,"explicacion":"Coordinación es trabajar juntos."},
-{"pregunta":"Actuar según la ley es:","respuestas":["Jerarquía","Coordinación","Legalidad"],"correcta":2,"explicacion":"Legalidad es cumplir la ley."},
-{"pregunta":"Si la Administración causa daño:","respuestas":["Compensación","Indemnización","Beneficio"],"correcta":1,"explicacion":"Debe indemnizar."},
-{"pregunta":"Quién decide sobre indemnizaciones:","respuestas":["Tribunal","Juzgado","Jueces"],"correcta":2,"explicacion":"Los jueces deciden."},
-{"pregunta":"Niveles territoriales:","respuestas":["3","2","4"],"correcta":0,"explicacion":"Tres niveles."},
-{"pregunta":"Los niveles son:","respuestas":["Estado, comunidades autónomas, municipios","Estado, provincias, municipios","Estado, comunidades, provincias"],"correcta":0,"explicacion":"Tres niveles."},
-{"pregunta":"Administración General del Estado:","respuestas":["Local","Nacional","Privada"],"correcta":1,"explicacion":"Actúa en toda España."},
-{"pregunta":"Competencias compartidas:","respuestas":["Repartidas entre Estado y CCAA","Solo Estado","Solo CCAA"],"correcta":0,"explicacion":"Se comparten."},
-{"pregunta":"Administración autonómica actúa en:","respuestas":["Toda España","Su comunidad","Provincia"],"correcta":1,"explicacion":"Actúa en su territorio."},
-{"pregunta":"Administración local gestiona:","respuestas":["Provincias","Municipios","Ambas"],"correcta":2,"explicacion":"Gestiona ambos."},
-{"pregunta":"Gobierno del Ayuntamiento:","respuestas":["Alcalde y consejeros","Alcalde y concejales","Alcalde y secretario"],"correcta":1,"explicacion":"Son concejales."},
-{"pregunta":"Provincia es:","respuestas":["Comunidad","Conjunto de municipios","Ambas"],"correcta":1,"explicacion":"Agrupa municipios."},
-{"pregunta":"Gobierno provincial:","respuestas":["Diputación","Ayuntamiento","Autonómica"],"correcta":0,"explicacion":"Diputación provincial."},
-{"pregunta":"Baleares:","respuestas":["Consejos Insulares","Cabildos","Diputaciones"],"correcta":0,"explicacion":"Consejos."},
-{"pregunta":"Canarias:","respuestas":["Consejos","Cabildos","Diputaciones"],"correcta":1,"explicacion":"Cabildos."},
-{"pregunta":"Ministerio del Interior:","respuestas":["Defensa","Seguridad","Deporte"],"correcta":1,"explicacion":"Seguridad ciudadana."},
-{"pregunta":"Objetivos de la Administración:","respuestas":["Cumplir leyes","Coordinar","Ambas"],"correcta":2,"explicacion":"Ambas funciones."},
-{"pregunta":"Niveles Administración Estado:","respuestas":["Central y periférica","Tres niveles","Otros"],"correcta":0,"explicacion":"Dos niveles."},
-{"pregunta":"Delegado del Gobierno:","respuestas":["Representa al Gobierno","Representa al Parlamento","Representa ciudadanos"],"correcta":0,"explicacion":"Representa al Gobierno."},
-{"pregunta":"Subdelegado actúa en:","respuestas":["Comunidades","Provincias","Municipios"],"correcta":1,"explicacion":"En provincias."},
-{"pregunta":"Embajador es:","respuestas":["Jefe diplomático","Ministro","Cónsul"],"correcta":0,"explicacion":"Representa al Estado."},
-{"pregunta":"Cónsul es:","respuestas":["Oficina consular","Embajador","Ministro"],"correcta":0,"explicacion":"Gestiona asuntos consulares."}
+  {
+    "pregunta": "El conjunto de órganos administrativos que realizan unos trabajos para satisfacer las necesidades de los ciudadanos, organizaciones e instituciones es:",
+    "opciones": ["La Administración", "Procedimiento", "Personalidad jurídica"],
+    "respuesta": 0
+  },
+  {
+    "pregunta": "Un grupo de personas que dentro de la Administración se ocupa de un trabajo concreto y cuyas decisiones tienen consecuencias legales es:",
+    "opciones": ["La Administración", "Los órganos administrativos", "La personalidad jurídica"],
+    "respuesta": 1
+  },
+  {
+    "pregunta": "La Administración para llevar a cabo su trabajo siempre sigue:",
+    "opciones": ["Un procedimiento", "Las indicaciones del Gobierno", "Las dos respuestas anteriores son correctas"],
+    "respuesta": 0
+  },
+  {
+    "pregunta": "El modo de ejecutar tareas con pasos definidos es:",
+    "opciones": ["Coordinación", "Descentralización", "Procedimiento"],
+    "respuesta": 2
+  },
+  {
+    "pregunta": "Qué es tener personalidad jurídica:",
+    "opciones": [
+      "Responder jurídicamente de sus acciones",
+      "Tener derechos y obligaciones",
+      "Las dos respuestas anteriores son correctas"
+    ],
+    "respuesta": 2
+  },
+  {
+    "pregunta": "Quién reconoce la personalidad jurídica:",
+    "opciones": ["El gobierno", "Las leyes", "Los ministros"],
+    "respuesta": 1
+  },
+  {
+    "pregunta": "Por qué la Administración es tan compleja:",
+    "opciones": [
+      "Porque las instituciones necesitan muchos servicios diferentes",
+      "Porque los ciudadanos necesitan muchos servicios diferentes",
+      "Las dos respuestas anteriores son correctas"
+    ],
+    "respuesta": 2
+  },
+  {
+    "pregunta": "Qué significa que los órganos administrativos puedan tener cosas que son suyas:",
+    "opciones": [
+      "Tener personalidad jurídica",
+      "Tener patrimonio",
+      "Las dos respuestas anteriores son correctas"
+    ],
+    "respuesta": 1
+  },
+  {
+    "pregunta": "A los órganos administrativos la ley les reconoce:",
+    "opciones": ["Personalidad jurídica", "Patrimonio", "Las dos respuestas anteriores son correctas"],
+    "respuesta": 2
+  },
+  {
+    "pregunta": "La ley más importante de España es:",
+    "opciones": ["Los reglamentos", "La Constitución", "La constitución aprobada en 1978"],
+    "respuesta": 1
+  },
+  {
+    "pregunta": "La Constitución regula:",
+    "opciones": [
+      "La Corona y las Cortes",
+      "Las Cortes, la Corona y el Gobierno de España",
+      "Las Cortes y el Gobierno de España"
+    ],
+    "respuesta": 1
+  },
+  {
+    "pregunta": "Hacer las cosas sin favoritismos es:",
+    "opciones": ["Subjetividad", "Objetividad", "Intereses generales"],
+    "respuesta": 1
+  },
+  {
+    "pregunta": "Pensar en lo que es bueno para todos es:",
+    "opciones": ["Subjetividad", "Objetividad", "Intereses generales"],
+    "respuesta": 2
+  },
+  {
+    "pregunta": "Los principios de la Administración son:",
+    "opciones": [
+      "Eficacia, jerarquía, descentralización, coordinación y legalidad",
+      "Eficacia, jerarquía, descentralización, concentración, coordinación y legalidad",
+      "Eficacia, jerarquía, descentralización, desconcentración, coordinación y legalidad"
+    ],
+    "respuesta": 2
+  },
+  {
+    "pregunta": "Qué significa actuar de manera correcta y rápida:",
+    "opciones": ["Descentralización", "Coordinación", "Eficacia"],
+    "respuesta": 2
+  },
+  {
+    "pregunta": "Qué significa reparto de responsabilidades:",
+    "opciones": ["Eficacia", "Jerarquía", "Coordinación"],
+    "respuesta": 1
+  },
+  {
+    "pregunta": "Descentralización y desconcentración significa:",
+    "opciones": [
+      "Resolver antes",
+      "Resolver mejor",
+      "Resolver antes y mejor"
+    ],
+    "respuesta": 2
+  },
+  {
+    "pregunta": "Cuando la Administración actúa de forma conjunta hablamos de:",
+    "opciones": ["Coordinación", "Jerarquía", "Desconcentración"],
+    "respuesta": 0
+  },
+  {
+    "pregunta": "Cumplir las leyes es el principio de:",
+    "opciones": ["Jerarquía", "Coordinación", "Legalidad"],
+    "respuesta": 2
+  },
+  {
+    "pregunta": "Si hay daños por mala administración se puede pedir:",
+    "opciones": ["Compensación", "Indemnización", "Beneficio"],
+    "respuesta": 1
+  },
+  {
+    "pregunta": "Quién decide la indemnización:",
+    "opciones": ["El tribunal", "El juzgado", "Los jueces"],
+    "respuesta": 2
+  },
+  {
+    "pregunta": "La Administración tiene niveles territoriales:",
+    "opciones": ["3", "2", "4"],
+    "respuesta": 0
+  },
+  {
+    "pregunta": "Los niveles territoriales son:",
+    "opciones": [
+      "Estado, comunidades autónomas, municipios",
+      "Estado, provincias, municipios",
+      "Estado, comunidades autónomas, provincias"
+    ],
+    "respuesta": 0
+  },
+  {
+    "pregunta": "Los tres niveles de la administración pública son:",
+    "opciones": [
+      "Central, autonómica, provincial",
+      "Central, autonómica, periférica",
+      "Central, autonómica, local"
+    ],
+    "respuesta": 2
+  },
+  {
+    "pregunta": "Se llama Administración General del Estado porque:",
+    "opciones": [
+      "El Gobierno organiza",
+      "Se aplica en todo el territorio",
+      "Las dos respuestas son correctas"
+    ],
+    "respuesta": 2
+  },
+  {
+    "pregunta": "Competencias compartidas son:",
+    "opciones": [
+      "Gobierno y comunidades comparten decisiones",
+      "Solo el gobierno decide",
+      "Solo las comunidades deciden"
+    ],
+    "respuesta": 0
+  },
+  {
+    "pregunta": "La administración autonómica actúa:",
+    "opciones": ["En toda España", "En su comunidad autónoma", "En la provincia"],
+    "respuesta": 1
+  },
+  {
+    "pregunta": "La administración autonómica significa:",
+    "opciones": [
+      "La dirige el gobierno autonómico",
+      "Se aplica en su territorio",
+      "Las dos respuestas son correctas"
+    ],
+    "respuesta": 2
+  },
+  {
+    "pregunta": "Órganos autonómicos:",
+    "opciones": [
+      "Presidente, vicepresidente y concejales",
+      "Presidente, vicepresidente y consejeros",
+      "Presidente, ministros y secretarios"
+    ],
+    "respuesta": 1
+  },
+  {
+    "pregunta": "Administración local:",
+    "opciones": [
+      "Gestiona provincias",
+      "Gestiona municipios",
+      "Las dos respuestas son correctas"
+    ],
+    "respuesta": 2
+  },
+  {
+    "pregunta": "Las decisiones del ayuntamiento se aplican en:",
+    "opciones": ["Provincia", "Municipio", "Comunidad"],
+    "respuesta": 1
+  },
+  {
+    "pregunta": "Gobierno municipal:",
+    "opciones": [
+      "Alcalde y consejeros",
+      "Alcalde y concejales",
+      "Alcalde y secretario"
+    ],
+    "respuesta": 1
+  },
+  {
+    "pregunta": "Una provincia es:",
+    "opciones": [
+      "Una comunidad",
+      "Conjunto de municipios",
+      "Las dos respuestas son correctas"
+    ],
+    "respuesta": 1
+  },
+  {
+    "pregunta": "El órgano que gobierna la provincia es:",
+    "opciones": [
+      "Diputación Provincial",
+      "Ayuntamiento",
+      "Administración autonómica"
+    ],
+    "respuesta": 0
+  },
+  {
+    "pregunta": "En comunidades de una sola provincia:",
+    "opciones": [
+      "Verdadero",
+      "Falso",
+      "No hay diputación provincial"
+    ],
+    "respuesta": 2
+  },
+  {
+    "pregunta": "Las Islas Baleares tienen:",
+    "opciones": [
+      "Consejos Insulares",
+      "Cabildos Insulares",
+      "Consejos Baleares"
+    ],
+    "respuesta": 0
+  },
+  {
+    "pregunta": "Las Islas Canarias tienen:",
+    "opciones": [
+      "Consejos Insulares",
+      "Cabildos Insulares",
+      "Consejos Canarios"
+    ],
+    "respuesta": 1
+  },
+  {
+    "pregunta": "El Ministerio del Interior se encarga de:",
+    "opciones": [
+      "Defensa",
+      "Seguridad ciudadana",
+      "Deporte"
+    ],
+    "respuesta": 1
+  }
 ]
