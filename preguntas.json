@@ -1,31 +1,32 @@
+
 [
   {
     "pregunta": "El conjunto de órganos administrativos que realizan unos trabajos para satisfacer las necesidades de los ciudadanos es:",
     "respuestas": ["La Administración", "Procedimiento", "Personalidad jurídica"],
     "correcta": 0,
-    "explicacion": "La Administración es el conjunto de órganos que gestionan servicios públicos."
+    "explicacion": "La Administración es el conjunto de órganos que prestan servicios públicos."
   },
   {
     "pregunta": "Un grupo de personas dentro de la Administración que toma decisiones con efectos legales son:",
     "respuestas": ["La Administración", "Los órganos administrativos", "La personalidad jurídica"],
     "correcta": 1,
-    "explicacion": "Los órganos administrativos son los que toman decisiones con efectos jurídicos."
+    "explicacion": "Los órganos administrativos toman decisiones con efectos jurídicos."
   },
   {
     "pregunta": "La Administración sigue siempre:",
     "respuestas": ["Un procedimiento", "Las indicaciones del Gobierno", "Las dos respuestas son correctas"],
     "correcta": 2,
-    "explicacion": "La Administración sigue procedimientos y también las indicaciones del Gobierno."
+    "explicacion": "Sigue procedimientos y directrices del Gobierno."
   },
   {
     "pregunta": "El modo de ejecutar tareas con pasos definidos es:",
     "respuestas": ["Coordinación", "Descentralización", "Procedimiento"],
     "correcta": 2,
-    "explicacion": "Un procedimiento es una serie de pasos definidos para realizar una tarea."
+    "explicacion": "Un procedimiento define cómo se realiza una tarea paso a paso."
   },
   {
     "pregunta": "Qué es tener personalidad jurídica:",
-    "respuestas": ["Responder jurídicamente", "Tener derechos y obligaciones", "Las dos respuestas son correctas"],
+    "respuestas": ["Responder jurídicamente", "Tener derechos y obligaciones", "Las dos son correctas"],
     "correcta": 2,
     "explicacion": "Implica tener derechos y obligaciones y responder ante la ley."
   },
@@ -33,60 +34,90 @@
     "pregunta": "Quién reconoce la personalidad jurídica:",
     "respuestas": ["El gobierno", "Las leyes", "Los ministros"],
     "correcta": 1,
-    "explicacion": "La personalidad jurídica la reconoce la ley."
+    "explicacion": "La ley es quien reconoce la personalidad jurídica."
   },
   {
     "pregunta": "Por qué la Administración es compleja:",
-    "respuestas": ["Porque hay muchos servicios", "Porque los ciudadanos necesitan muchos servicios", "Las dos respuestas son correctas"],
+    "respuestas": ["Porque las instituciones necesitan servicios", "Porque los ciudadanos necesitan servicios", "Las dos son correctas"],
     "correcta": 2,
-    "explicacion": "La Administración es compleja por la variedad de servicios y necesidades."
+    "explicacion": "Existen muchas necesidades distintas que atender."
   },
   {
-    "pregunta": "Qué significa tener patrimonio:",
-    "respuestas": ["Tener personalidad jurídica", "Tener bienes propios", "Las dos respuestas son correctas"],
+    "pregunta": "Ser propietario de bienes significa:",
+    "respuestas": ["Personalidad jurídica", "Patrimonio", "Las dos"],
     "correcta": 1,
     "explicacion": "El patrimonio es el conjunto de bienes que posee una entidad."
-  },
-  {
-    "pregunta": "A los órganos administrativos la ley les reconoce:",
-    "respuestas": ["Personalidad jurídica", "Patrimonio", "Las dos respuestas son correctas"],
-    "correcta": 2,
-    "explicacion": "La ley reconoce ambas cosas: personalidad jurídica y patrimonio."
   },
   {
     "pregunta": "La ley más importante de España es:",
     "respuestas": ["Los reglamentos", "La Constitución", "Otra ley"],
     "correcta": 1,
-    "explicacion": "La Constitución es la norma suprema."
+    "explicacion": "La Constitución es la norma suprema del Estado."
   },
   {
     "pregunta": "Hacer las cosas sin favoritismos es:",
     "respuestas": ["Subjetividad", "Objetividad", "Intereses generales"],
     "correcta": 1,
-    "explicacion": "La objetividad implica actuar sin favoritismos ni intereses personales."
+    "explicacion": "La objetividad implica actuar sin intereses personales."
   },
   {
-    "pregunta": "La Administración actúa siempre buscando:",
-    "respuestas": ["Intereses privados", "Intereses generales", "Intereses políticos"],
-    "correcta": 1,
-    "explicacion": "Debe actuar en beneficio del interés general."
+    "pregunta": "Pensar en lo que es bueno para todos es:",
+    "respuestas": ["Subjetividad", "Objetividad", "Intereses generales"],
+    "correcta": 2,
+    "explicacion": "El interés general busca el bien común."
   },
   {
-    "pregunta": "La jerarquía normativa significa:",
-    "respuestas": ["Que todas las normas valen igual", "Que unas normas están por encima de otras", "Que no existen normas"],
+    "pregunta": "El principio de eficacia significa:",
+    "respuestas": ["Actuar lento", "Cumplir objetivos correctamente", "No actuar"],
     "correcta": 1,
-    "explicacion": "Establece el orden de importancia entre normas."
+    "explicacion": "Eficacia es lograr resultados correctamente."
   },
   {
-    "pregunta": "Las leyes son aprobadas por:",
-    "respuestas": ["El Gobierno", "El Parlamento", "Los ciudadanos"],
+    "pregunta": "El principio de jerarquía significa:",
+    "respuestas": ["Igualdad total", "Organización por niveles", "Desorden"],
     "correcta": 1,
-    "explicacion": "El Parlamento aprueba las leyes."
+    "explicacion": "Existen distintos niveles de autoridad."
+  },
+  {
+    "pregunta": "La descentralización implica:",
+    "respuestas": ["Centralizar todo", "Repartir funciones", "Eliminar funciones"],
+    "correcta": 1,
+    "explicacion": "Permite distribuir responsabilidades."
+  },
+  {
+    "pregunta": "La coordinación significa:",
+    "respuestas": ["Actuar separado", "Trabajar juntos", "No actuar"],
+    "correcta": 1,
+    "explicacion": "Implica organización conjunta."
   },
   {
     "pregunta": "El principio de legalidad implica:",
-    "respuestas": ["Actuar sin normas", "Actuar conforme a la ley", "Actuar libremente"],
+    "respuestas": ["Actuar libremente", "Actuar conforme a la ley", "Ignorar normas"],
     "correcta": 1,
-    "explicacion": "La Administración debe actuar conforme a la ley."
+    "explicacion": "La Administración debe respetar la ley."
+  },
+  {
+    "pregunta": "Si la Administración causa daños:",
+    "respuestas": ["No pasa nada", "Debe indemnizar", "Se ignora"],
+    "correcta": 1,
+    "explicacion": "Debe responder por daños causados."
+  },
+  {
+    "pregunta": "La Administración tiene niveles:",
+    "respuestas": ["1", "2", "3"],
+    "correcta": 2,
+    "explicacion": "Estado, comunidad autónoma y local."
+  },
+  {
+    "pregunta": "Los niveles territoriales son:",
+    "respuestas": ["Estado, comunidades y municipios", "Solo Estado", "Solo municipios"],
+    "correcta": 0,
+    "explicacion": "La organización territorial se divide en tres niveles."
+  },
+  {
+    "pregunta": "La Administración autonómica actúa:",
+    "respuestas": ["En toda España", "En su comunidad", "En Europa"],
+    "correcta": 1,
+    "explicacion": "Solo actúa en su territorio."
   }
 ]
