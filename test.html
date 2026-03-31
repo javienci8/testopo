@@ -85,7 +85,7 @@ from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { getFirestore, doc, setDoc } 
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// 🔥 TU CONFIG (NO TOCAR SI YA LA TIENES)
+// 🔥 TU CONFIG 
 const firebaseConfig = {
   apiKey: "AIzaSyDXbFXZhI4AMJEC4p-gLznB0NdIFt5S9KQ",
   authDomain: "testopo-5fee0.firebaseapp.com",
@@ -119,15 +119,20 @@ const explicacion = document.getElementById("explicacion");
 const resultado = document.getElementById("resultado");
   
 // 🔥 CARGAR PREGUNTAS
-fetch("preguntas.json")
-.then(res => res.json())
-.then(data => {
-  preguntas = data;
-  cargarPregunta();
-})
-.catch(() => {
-  document.getElementById("pregunta").innerText = "Error cargando preguntas";
-});
+fetch("./preguntas.json")
+  .then(res => {
+    if (!res.ok) throw new Error("No se pudo cargar el JSON");
+    return res.json();
+  })
+  .then(data => {
+    console.log("JSON cargado:", data); // 👈 IMPORTANTE
+    preguntas = data;
+    cargarPregunta();
+  })
+  .catch(error => {
+    console.error("ERROR:", error);
+    document.getElementById("pregunta").innerText = "Error cargando preguntas";
+  });
 
 // 🔥 MOSTRAR PREGUNTA
 function cargarPregunta() {
