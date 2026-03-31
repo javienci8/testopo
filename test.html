@@ -13,21 +13,12 @@
       padding: 15px;
     }
 
-    body.dark {
-      background: #121212;
-      color: white;
-    }
-
     .card {
       background: white;
       padding: 15px;
       border-radius: 12px;
       max-width: 500px;
       margin: auto;
-    }
-
-    body.dark .card {
-      background: #1e1e1e;
     }
 
     button {
@@ -38,11 +29,6 @@
       border: none;
       border-radius: 8px;
       background: #ddd;
-    }
-
-    body.dark button {
-      background: #333;
-      color: white;
     }
 
     .correcta { background: #4CAF50; color: white; }
@@ -65,11 +51,24 @@
       width: 0%;
       background: #4CAF50;
     }
+
+    .lista {
+      margin-top: 10px;
+      font-size: 12px;
+      max-height: 100px;
+      overflow-y: auto;
+    }
+
+    .acierto { color: green; }
+    .fallo { color: red; }
+
+    #repetir {
+      background: #ff9800;
+      color: white;
+    }
   </style>
 </head>
 <body>
-
-<button onclick="toggleModo()">🌙 Cambiar modo</button>
 
 <div class="card">
   <div id="contador"></div>
@@ -85,11 +84,23 @@
   <div id="explicacion"></div>
 
   <button id="siguiente" onclick="siguientePregunta()" style="display:none;">Siguiente</button>
+  <button id="repetir" onclick="repetirFallos()" style="display:none;">🔁 Repetir fallos</button>
+
+  <div class="lista">
+    <strong>✔ Aciertos:</strong>
+    <div id="listaAciertos"></div>
+
+    <strong>❌ Fallos:</strong>
+    <div id="listaFallos"></div>
+  </div>
 </div>
 
 <script>
+let preguntasOriginal = [];
 let preguntas = [];
 let fallos = [];
+let aciertosLista = [];
+
 let actual = 0;
 let aciertos = 0;
 let errores = 0;
@@ -103,8 +114,8 @@ setInterval(() => {
 fetch("preguntas.json")
   .then(res => res.json())
   .then(data => {
-    preguntas = data;
-    cargarProgreso();
+    preguntasOriginal = data;
+    preguntas = [...data];
     mostrarPregunta();
   });
 
@@ -138,6 +149,14 @@ function mostrarPregunta() {
   document.getElementById("siguiente").style.display = "none";
 }
 
+function actualizarListas() {
+  document.getElementById("listaAciertos").innerHTML =
+    aciertosLista.map((p, i) => `<div class="acierto">${i+1}. ${p}</div>`).join("");
+
+  document.getElementById("listaFallos").innerHTML =
+    fallos.map((p, i) => `<div class="fallo">${i+1}. ${p}</div>`).join("");
+}
+
 function responder(indice, boton) {
   const correcta = preguntas[actual].respuesta;
   const botones = document.querySelectorAll("#opciones button");
@@ -150,24 +169,25 @@ function responder(indice, boton) {
 
   if (indice === correcta) {
     aciertos++;
+    aciertosLista.push(preguntas[actual].pregunta);
+    document.getElementById("resultado").innerText = "✅ Correcto";
   } else {
     errores++;
     fallos.push(preguntas[actual]);
+    document.getElementById("resultado").innerText = "❌ Incorrecto";
   }
 
-  document.getElementById("resultado").innerText =
-    indice === correcta ? "✅ Correcto" : "❌ Incorrecto";
+  actualizarListas();
 
   document.getElementById("explicacion").innerText =
     preguntas[actual].explicacion || "";
-
-  guardarProgreso();
 
   document.getElementById("siguiente").style.display = "block";
 }
 
 function siguientePregunta() {
   actual++;
+
   if (actual < preguntas.length) {
     mostrarPregunta();
   } else {
@@ -176,47 +196,28 @@ function siguientePregunta() {
 }
 
 function finTest() {
-  if (fallos.length > 0) {
-    document.querySelector(".card").innerHTML =
-      `<h2>Test terminado</h2>
-       <p>✅ ${aciertos} | ❌ ${errores}</p>
-       <button onclick="repetirFallos()">Repetir hasta acertar TODO</button>`;
-  } else {
-    document.querySelector(".card").innerHTML =
-      `<h2>Perfecto 🎉</h2>
-       <p>Todo correcto</p>`;
-  }
+  document.getElementById("repetir").style.display =
+    fallos.length > 0 ? "block" : "none";
 
-  localStorage.removeItem("progreso");
+  document.getElementById("resultado").innerText =
+    `Test terminado → ✅ ${aciertos} | ❌ ${errores}`;
 }
 
 function repetirFallos() {
+  if (fallos.length === 0) {
+    alert("No hay fallos 🎉");
+    return;
+  }
+
   preguntas = [...fallos];
   fallos = [];
   actual = 0;
   aciertos = 0;
   errores = 0;
+  aciertosLista = [];
+
+  actualizarListas();
   mostrarPregunta();
-}
-
-function guardarProgreso() {
-  localStorage.setItem("progreso", JSON.stringify({
-    actual, aciertos, errores, fallos
-  }));
-}
-
-function cargarProgreso() {
-  const data = JSON.parse(localStorage.getItem("progreso"));
-  if (data) {
-    actual = data.actual;
-    aciertos = data.aciertos;
-    errores = data.errores;
-    fallos = data.fallos;
-  }
-}
-
-function toggleModo() {
-  document.body.classList.toggle("dark");
 }
 </script>
 
