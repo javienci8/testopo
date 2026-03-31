@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Test</title>
+<title>Test App</title>
 
 <style>
 * { box-sizing: border-box; }
@@ -11,41 +11,45 @@
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  background: #f5f7fb;
 }
 
 /* HEADER */
 .header {
-  width: 100%;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
   padding: 15px;
   text-align: center;
-  color: white;
-  font-weight: bold;
   font-size: 18px;
+  font-weight: bold;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+/* CONTENEDOR */
+.container {
+  padding: 15px;
+  max-width: 500px;
+  margin: auto;
 }
 
 /* CARD */
 .card {
   background: white;
-  width: 90%;
-  max-width: 500px;
   border-radius: 20px;
   padding: 20px;
-  margin-top: 20px;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-  animation: fadeIn 0.4s ease;
+  margin-top: -20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  animation: fadeIn 0.3s ease;
 }
 
 /* PROGRESO */
 .progress-container {
   background: #eee;
-  border-radius: 20px;
-  overflow: hidden;
+  border-radius: 10px;
   height: 8px;
-  margin-bottom: 15px;
+  overflow: hidden;
+  margin-bottom: 10px;
 }
 
 .progress-bar {
@@ -55,10 +59,17 @@ body {
   transition: 0.3s;
 }
 
+/* CONTADOR */
+.counter {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
 /* PREGUNTA */
 #pregunta {
   font-size: 18px;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 /* RESPUESTAS */
@@ -67,29 +78,23 @@ body {
   padding: 14px;
   margin: 8px 0;
   border: none;
-  border-radius: 14px;
-  background: #f5f6fa;
+  border-radius: 12px;
+  background: #f1f3f9;
   font-size: 15px;
   cursor: pointer;
   transition: 0.2s;
 }
 
 #respuestas button:hover {
-  background: #e0e3ff;
+  background: #e0e5ff;
   transform: scale(1.02);
 }
 
 /* FEEDBACK */
-.correcto {
-  color: #2ecc71;
-  font-weight: bold;
-}
+.correcto { color: #2ecc71; font-weight: bold; }
+.incorrecto { color: #e74c3c; font-weight: bold; }
 
-.incorrecto {
-  color: #e74c3c;
-  font-weight: bold;
-}
-
+/* EXPLICACIÓN */
 #explicacion {
   margin-top: 10px;
   font-size: 14px;
@@ -102,16 +107,11 @@ body {
   padding: 14px;
   width: 100%;
   border: none;
-  border-radius: 14px;
+  border-radius: 12px;
   background: linear-gradient(135deg, #667eea, #764ba2);
   color: white;
   font-size: 16px;
   cursor: pointer;
-  transition: 0.3s;
-}
-
-.next-btn:hover {
-  transform: scale(1.03);
 }
 
 /* RESULTADO */
@@ -135,23 +135,27 @@ body {
   📚 Test App
 </div>
 
-<div class="card">
+<div class="container">
+  <div class="card">
 
-  <div class="progress-container">
-    <div class="progress-bar" id="progress"></div>
+    <div class="progress-container">
+      <div class="progress-bar" id="progress"></div>
+    </div>
+
+    <div class="counter" id="contador"></div>
+
+    <h2 id="pregunta">Cargando...</h2>
+
+    <div id="respuestas"></div>
+
+    <div id="feedback"></div>
+    <div id="explicacion"></div>
+
+    <button class="next-btn" onclick="siguiente()">Siguiente</button>
+
+    <div id="resultado"></div>
+
   </div>
-
-  <h2 id="pregunta">Cargando...</h2>
-
-  <div id="respuestas"></div>
-
-  <div id="feedback"></div>
-  <div id="explicacion"></div>
-
-  <button class="next-btn" onclick="siguiente()">Siguiente</button>
-
-  <div id="resultado"></div>
-
 </div>
 
 <script>
@@ -171,14 +175,17 @@ fetch(archivo)
     cargarPregunta();
   });
 
-function actualizarProgreso() {
+function actualizarUI() {
   document.getElementById("progress").style.width =
     (index / preguntas.length) * 100 + "%";
+
+  document.getElementById("contador").innerText =
+    "Pregunta " + (index + 1) + " de " + preguntas.length;
 }
 
 function cargarPregunta() {
   respondida = false;
-  actualizarProgreso();
+  actualizarUI();
 
   const p = preguntas[index];
 
@@ -222,12 +229,18 @@ function siguiente() {
     cargarPregunta();
   } else {
     document.getElementById("progress").style.width = "100%";
+    document.getElementById("contador").innerText = "";
     document.getElementById("pregunta").innerText = "🎉 Test terminado";
     document.getElementById("respuestas").innerHTML = "";
     document.getElementById("resultado").innerText =
       "Resultado: " + puntos + "/" + preguntas.length;
   }
 }
+
+</script>
+
+</body>
+</html>
 
 </script>
 
