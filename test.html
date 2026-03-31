@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Test tipo Daypo</title>
+  <title>Test PRO</title>
 
   <style>
     body {
@@ -89,6 +89,17 @@
       background: #ff9800;
       color: white;
     }
+
+    #historialBtn {
+      background: #673ab7;
+      color: white;
+    }
+
+    .historial {
+      text-align: left;
+      font-size: 14px;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
@@ -113,16 +124,10 @@
 
 <script>
 let preguntas = [];
-let respuestasUsuario = [];
 let fallos = [];
-
 let actual = 0;
 let aciertos = 0;
 let errores = 0;
-
-// sonidos
-const sonidoBien = new Audio("https://www.soundjay.com/buttons/sounds/button-3.mp3");
-const sonidoMal = new Audio("https://www.soundjay.com/buttons/sounds/button-10.mp3");
 
 fetch("preguntas.json")
   .then(res => res.json())
@@ -163,21 +168,16 @@ function responder(indice, boton) {
 
   botones.forEach((btn, i) => {
     btn.disabled = true;
-
     if (i === correcta) btn.classList.add("correcta");
     if (i === indice && i !== correcta) btn.classList.add("incorrecta");
   });
 
-  respuestasUsuario[actual] = indice;
-
   if (indice === correcta) {
     aciertos++;
-    sonidoBien.play();
     document.getElementById("resultado").innerText = "✅ Correcto";
   } else {
     errores++;
     fallos.push(preguntas[actual]);
-    sonidoMal.play();
     document.getElementById("resultado").innerText = "❌ Incorrecto";
   }
 
@@ -203,7 +203,28 @@ function anteriorPregunta() {
   }
 }
 
+function guardarResultado() {
+  const tema = preguntas[0]?.tema || "General";
+  const porcentaje = ((aciertos / preguntas.length) * 100).toFixed(1);
+
+  const resultado = {
+    tema,
+    aciertos,
+    errores,
+    total: preguntas.length,
+    porcentaje,
+    fecha: new Date().toLocaleString()
+  };
+
+  let historial = JSON.parse(localStorage.getItem("historial")) || [];
+  historial.push(resultado);
+
+  localStorage.setItem("historial", JSON.stringify(historial));
+}
+
 function finTest() {
+  guardarResultado();
+
   const porcentaje = ((aciertos / preguntas.length) * 100).toFixed(1);
 
   document.querySelector(".card").innerHTML =
@@ -211,7 +232,7 @@ function finTest() {
      <p>✅ ${aciertos} | ❌ ${errores}</p>
      <p>📊 ${porcentaje}%</p>
      ${fallos.length > 0 ? '<button id="repetir" onclick="repetirFallos()">Repetir fallos</button>' : ''}
-    `;
+     <button id="historialBtn" onclick="verHistorial()">Ver historial</button>`;
 }
 
 function repetirFallos() {
@@ -220,20 +241,33 @@ function repetirFallos() {
   actual = 0;
   aciertos = 0;
   errores = 0;
-
-  document.body.innerHTML = `
-    <div class="card">
-      <div id="contador"></div>
-      <div id="barra"><div id="progreso"></div></div>
-      <div id="pregunta"></div>
-      <div id="opciones"></div>
-      <div id="resultado"></div>
-      <div id="explicacion"></div>
-      <button id="siguiente" onclick="siguientePregunta()" style="display:none;">Siguiente</button>
-    </div>
-  `;
-
   mostrarPregunta();
+}
+
+function verHistorial() {
+  let historial = JSON.parse(localStorage.getItem("historial")) || [];
+
+  let html = "<h2>Historial</h2>";
+
+  historial.reverse().forEach(r => {
+    html += `
+      <div class="historial">
+        📅 ${r.fecha}<br>
+        📘 ${r.tema}<br>
+        ✅ ${r.aciertos}/${r.total} — ${r.porcentaje}%<br><br>
+      </div>
+    `;
+  });
+
+  html += `<button onclick="borrarHistorial()">🗑 Borrar historial</button>`;
+
+  document.querySelector(".card").innerHTML = html;
+}
+
+function borrarHistorial() {
+  localStorage.removeItem("historial");
+  alert("Historial borrado");
+  location.reload();
 }
 </script>
 
