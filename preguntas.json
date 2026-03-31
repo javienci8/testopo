@@ -58,8 +58,7 @@
     "respuestas": ["Los reglamentos", "La Constitución", "Otra ley"],
     "correcta": 1,
     "explicacion": "La Constitución es la norma suprema."
-  }
-  ,
+  },
   {
     "pregunta": "Hacer las cosas sin favoritismos es:",
     "respuestas": ["Subjetividad", "Objetividad", "Intereses generales"],
@@ -119,8 +118,7 @@
     "respuestas": ["Centralizar todo", "Repartir competencias", "Eliminar competencias"],
     "correcta": 1,
     "explicacion": "La descentralización implica repartir funciones entre distintas administraciones."
-  }
-  ,
+  },
   {
     "pregunta": "La desconcentración significa:",
     "respuestas": ["Repartir competencias dentro de una misma administración", "Eliminar competencias", "Centralizar funciones"],
@@ -180,8 +178,7 @@
     "respuestas": ["En toda España", "En su comunidad autónoma", "En Europa"],
     "correcta": 1,
     "explicacion": "Actúa dentro del territorio de su comunidad."
-  }
-  ,
+  },
   {
     "pregunta": "La Administración local gestiona:",
     "respuestas": ["El Estado", "Los municipios", "Europa"],
@@ -241,8 +238,7 @@
     "respuestas": ["1", "2", "3"],
     "correcta": 1,
     "explicacion": "Tiene nivel central y periférico."
-  }
-  ,
+  },
   {
     "pregunta": "La Administración local gestiona:",
     "respuestas": ["El Estado", "Los municipios", "Europa"],
